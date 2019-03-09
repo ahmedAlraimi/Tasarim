@@ -1,2 +1,0 @@
-# Tasarim
-Tasarim Oruntuleri
