@@ -1,0 +1,67 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+/'Actors'/
+actor Admin
+actor Alumni_Student
+actor Event_Manager
+
+
+
+rectangle Alumni_website {
+
+/'Use Cases'/
+(Log In)
+(Registration)
+(Alumni List)
+(Scheduling Events)
+(Preview Events)
+
+(Verify Password)
+(Reset Password)
+(Verify Membership)
+(Brief Info)
+(Updating Events)
+(Like/Comment On Events)
+(Search Events)
+
+
+/'Include Relationships'/
+
+(Verify Membership) <. (Registration) : <<include>>
+(Log In) .> (Verify Password) : <<include>>
+
+/'Extend Relationships'/
+(Reset Password) .> (Log In) : <<extend>>
+(Brief Info) .> (Alumni List) : <<extend>>
+(Updating Events) .> (Scheduling Events) : <<extend>>
+(Like/Comment On Events) .> (Preview Events) : <<extend>>
+(Preview Events) <. (Search Events) : <<extend>>
+
+
+
+
+
+/'Association'/
+
+
+(Log In) -- Admin
+(Alumni List) -- Admin
+(Preview Events) -- Admin
+(Verify Membership) ---- Admin
+
+Alumni_Student --- (Log In)
+Alumni_Student --- (Registration)
+Alumni_Student --- (Alumni List)
+Alumni_Student --- (Preview Events)
+
+Event_Manager ---- (Log In)
+Event_Manager ---- (Alumni List)
+Event_Manager ---- (Preview Events)
+Event_Manager ---- (Scheduling Events)
+
+
+}
+@enduml
+

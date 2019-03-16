@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="672.8px" preserveAspectRatio="none" style="width:307px;height:672px;" version="1.1" viewBox="0 0 307 672" width="307.2px" zoomAndPan="magnify"><defs><filter height="300%" id="f1r4vyhhbg1a9e" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="1.600000023841858"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="3.200000047683716" dy="3.200000047683716" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--cluster Alumni_website--><rect fill="#FFFFFF" filter="url(#f1r4vyhhbg1a9e)" height="644.8" style="stroke: #000000; stroke-width: 1.2000000178813934;" width="176.8" x="121.6" y="19.2"/><text fill="#000000" font-family="sans-serif" font-size="11.2" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="88" x="166" y="32.4266">Alumni_website</text><ellipse cx="210.0617" cy="252.7614" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="24.4617" ry="12.3614" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="31.2" x="194.4617" y="257.0051">Log In</text><ellipse cx="210.1921" cy="60.7614" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="45.3921" ry="12.3614" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="60.8" x="179.7921" y="65.0051">Registration</text><ellipse cx="210.0666" cy="374.3614" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="40.8666" ry="12.3614" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="54.4" x="182.8666" y="378.6051">Alumni List</text><ellipse cx="210.1049" cy="561.621" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="54.5049" ry="12.821" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="76.8" x="171.7049" y="565.8647">Preview Events</text><ellipse cx="209.9959" cy="184.7192" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="55.9959" ry="13.1192" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="80.8" x="169.5959" y="188.9629">Verify Password</text><ellipse cx="209.8981" cy="320.7796" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="56.2981" ry="13.1796" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="81.6" x="169.0981" y="325.0234">Reset Password</text><ellipse cx="210.1713" cy="129.7143" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="60.9713" ry="14.1143" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="93.6" x="163.3713" y="133.958">Verify Membership</text><ellipse cx="210.0784" cy="441.5614" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="34.0784" ry="12.3614" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="44.8" x="187.6784" y="445.8051">Brief Info</text><ellipse cx="209.8504" cy="633.4101" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="75.4504" ry="17.0101" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="128" x="145.8504" y="637.6538">Like/Comment On Events</text><ellipse cx="210.1372" cy="494.5875" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="53.3372" ry="12.5874" style="stroke: #A80036; stroke-width: 1.2000000178813934;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="73.6" x="173.3372" y="498.8312">Search Events</text><!--entity Alumni_Student--><ellipse cx="44.4" cy="287.6" fill="#FEFECE" filter="url(#f1r4vyhhbg1a9e)" rx="6.4" ry="6.4" style="stroke: #A80036; stroke-width: 1.600000023841858;"/><path d="M44.4,294 L44.4,315.6 M34,300.4 L54.8,300.4 M44.4,315.6 L34,327.6 M44.4,315.6 L54.8,327.6 " fill="none" filter="url(#f1r4vyhhbg1a9e)" style="stroke: #A80036; stroke-width: 1.600000023841858;"/><text fill="#000000" font-family="sans-serif" font-size="11.2" lengthAdjust="spacingAndGlyphs" textLength="79.2" x="4.8" y="344.8266">Alumni_Student</text><!--link Verify Membership to Registration--><path d="M210,111.112 C210,99.1808 210,83.9744 210,73.4176 " fill="none" id="Verify Membership-Registration" style="stroke: #A80036; stroke-width: 0.800000011920929; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="210,115.3448,213.2,108.1448,210,111.3448,206.8,108.1448,210,115.3448" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><text fill="#000000" font-family="sans-serif" font-size="10.4" lengthAdjust="spacingAndGlyphs" textLength="44" x="178.4" y="98.7961">«include»</text><!--link Log In to Verify Password--><path d="M210,240.328 C210,229.6736 210,214.228 210,202.3304 " fill="none" id="Log In-Verify Password" style="stroke: #A80036; stroke-width: 0.800000011920929; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="210,198.1232,206.8,205.3232,210,202.1232,213.2,205.3232,210,198.1232" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><text fill="#000000" font-family="sans-serif" font-size="10.4" lengthAdjust="spacingAndGlyphs" textLength="44" x="178.4" y="223.5961">«include»</text><!--link Reset Password to Log In--><path d="M210,307.3656 C210,296.472 210,281.0672 210,269.4024 " fill="none" id="Reset Password-Log In" style="stroke: #A80036; stroke-width: 0.800000011920929; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="210,265.2896,206.8,272.4896,210,269.2896,213.2,272.4896,210,265.2896" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><text fill="#000000" font-family="sans-serif" font-size="10.4" lengthAdjust="spacingAndGlyphs" textLength="42.4" x="179.2" y="290.7961">«extend»</text><!--link Brief Info to Alumni List--><path d="M210,428.96 C210,418.26 210,402.8376 210,391.1176 " fill="none" id="Brief Info-Alumni List" style="stroke: #A80036; stroke-width: 0.800000011920929; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="210,386.9832,206.8,394.1832,210,390.9832,213.2,394.1832,210,386.9832" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><text fill="#000000" font-family="sans-serif" font-size="10.4" lengthAdjust="spacingAndGlyphs" textLength="42.4" x="179.2" y="412.3961">«extend»</text><!--link Like/Comment On Events to Preview Events--><path d="M210,616.1708 C210,604.7544 210,589.9064 210,578.5816 " fill="none" id="Like/Comment On Events-Preview Events" style="stroke: #A80036; stroke-width: 0.800000011920929; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="210,574.5816,206.8,581.7816,210,578.5816,213.2,581.7816,210,574.5816" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><text fill="#000000" font-family="sans-serif" font-size="10.4" lengthAdjust="spacingAndGlyphs" textLength="42.4" x="179.2" y="599.7961">«extend»</text><!--link Preview Events to Search Events--><path d="M210,544.496 C210,532.76 210,517.4528 210,506.8624 " fill="none" id="Preview Events-Search Events" style="stroke: #A80036; stroke-width: 0.800000011920929; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="210,548.6432,213.2,541.4432,210,544.6432,206.8,541.4432,210,548.6432" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><text fill="#000000" font-family="sans-serif" font-size="10.4" lengthAdjust="spacingAndGlyphs" textLength="42.4" x="179.2" y="532.1961">«extend»</text><!--link Alumni_Student to Log In--><path d="M84.0657,299.1912 C117.4072,286.8304 164.0496,269.5384 189.9456,259.9384 " fill="none" id="Alumni_Student-Log In" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><!--link Alumni_Student to Registration--><path d="M47.9119,279.5776 C53.2721,233.748 69.0657,152.1152 115.2,101.6 C130.6768,84.6544 154.424,74.4264 174.1776,68.4496 " fill="none" id="Alumni_Student-Registration" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><!--link Alumni_Student to Alumni List--><path d="M84.2492,334.3552 C94.1856,339.1992 104.9552,344.0824 115.2,348 C135.3864,355.72 158.7824,362.2992 177.1832,366.9584 " fill="none" id="Alumni_Student-Alumni List" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><!--link Alumni_Student to Preview Events--><path d="M48.2314,347.6288 C53.9341,392.5736 70.0935,471.7504 115.2,520.8 C129.7712,536.6448 151.568,546.6264 170.5048,552.7472 " fill="none" id="Alumni_Student-Preview Events" style="stroke: #A80036; stroke-width: 0.800000011920929;"/><!--
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Alumni_Student
+
+rectangle Alumni_website {
+
+(Log In)
+(Registration)
+(Alumni List)
+(Preview Events)
+
+(Verify Password)
+(Reset Password)
+(Verify Membership)
+(Brief Info)
+(Like/Comment On Events)
+(Search Events)
+
+
+
+(Verify Membership) <. (Registration) : <<include>>
+(Log In) .> (Verify Password) : <<include>>
+
+(Reset Password) .> (Log In) : <<extend>>
+(Brief Info) .> (Alumni List) : <<extend>>
+(Like/Comment On Events) .> (Preview Events) : <<extend>>
+(Preview Events) <. (Search Events) : <<extend>>
+
+
+Alumni_Student - - (Log In)
+Alumni_Student - - (Registration)
+Alumni_Student - - (Alumni List)
+Alumni_Student - - (Preview Events)
+
+}
+@enduml
+
+PlantUML version 1.2018.11(Sat Sep 22 19:43:53 EET 2018)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 1.8.0_152-release-1024-b11
+Operating System: Windows 10
+OS Version: 10.0
+Default Encoding: Cp1254
+Language: tr
+Country: TR
+--></g></svg>

@@ -1,0 +1,400 @@
+
+# Alumni Web System
+
+This proposed web system allows current/graduated students to register and be infromed about the events concern them. Also it has the benefit of having a centralized database of the students community. A student can easily obtain information about other registered students.
+
+
+## Actors:
+
+[plantuml]
+----
+@startuml
+left to right direction
+
+/'Actors'/
+actor Admin
+actor Alumni_Student
+actor Event_Manager
+
+@enduml
+----
+
+[source]
+----
+@startuml
+left to right direction
+
+/'Actors'/
+actor Admin
+actor Alumni_Student
+actor Event_Manager
+
+@enduml
+----
+
+## Use Cases:
+
+* Main Use Cases :
+
+[plantuml]
+----
+@startuml
+left to right direction
+
+/'Use Cases'/
+(Log In)
+(Registration)
+(Alumni List)
+(Scheduling Events)
+(Preview Events)
+
+@enduml
+----
+
+[source]
+----
+@startuml
+left to right direction
+
+/'Use Cases'/
+(Log In)
+(Registration)
+(Alumni List)
+(Scheduling Events)
+(Preview Events)
+
+@enduml
+----
+
+* Included/Extended Use Cases :
+
+[plantuml]
+----
+@startuml
+left to right direction
+
+/'Use Cases'/
+(Verify Password)
+(Reset Password)
+(Verify Membership)
+(Brief Info)
+(Updating Events)
+(Like/Comment On Events)
+(Search Events)
+
+@enduml
+----
+
+[source]
+----
+@startuml
+left to right direction
+
+/'Use Cases'/
+(Verify Password)
+(Reset Password)
+(Verify Membership)
+(Brief Info)
+(Updating Events)
+(Like/Comment On Events)
+(Search Events)
+
+@enduml
+----
+
+## System Modules
+
+The system is proposed to have the following modules: 
+
+* *Student/Alumni Module:*
+
+The Alumni/student can register themselves and after the approval from the administrator, they can login and preview the list of the other students and events. Also interact with the events with likes or comments.
+
+[plantuml]
+----
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+/'Actors'/
+actor Alumni_Student
+
+rectangle Alumni_website {
+
+/'Use Cases'/
+(Log In)
+(Registration)
+(Alumni List)
+(Preview Events)
+
+(Verify Password)
+(Reset Password)
+(Verify Membership)
+(Brief Info)
+(Like/Comment On Events)
+(Search Events)
+
+
+/'Include Relationships'/
+
+(Verify Membership) <. (Registration) : <<include>>
+(Log In) .> (Verify Password) : <<include>>
+
+/'Extend Relationships'/
+(Reset Password) .> (Log In) : <<extend>>
+(Brief Info) .> (Alumni List) : <<extend>>
+(Like/Comment On Events) .> (Preview Events) : <<extend>>
+(Preview Events) <. (Search Events) : <<extend>>
+
+
+/'Association'/
+Alumni_Student -- (Log In)
+Alumni_Student -- (Registration)
+Alumni_Student -- (Alumni List)
+Alumni_Student -- (Preview Events)
+
+}
+@enduml
+----
+
+[source]
+----
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+/'Actors'/
+actor Alumni_Student
+
+rectangle Alumni_website {
+
+/'Use Cases'/
+(Log In)
+(Registration)
+(Alumni List)
+(Preview Events)
+
+(Verify Password)
+(Reset Password)
+(Verify Membership)
+(Brief Info)
+(Like/Comment On Events)
+(Search Events)
+
+
+/'Include Relationships'/
+
+(Verify Membership) <. (Registration) : <<include>>
+(Log In) .> (Verify Password) : <<include>>
+
+/'Extend Relationships'/
+(Reset Password) .> (Log In) : <<extend>>
+(Brief Info) .> (Alumni List) : <<extend>>
+(Like/Comment On Events) .> (Preview Events) : <<extend>>
+(Preview Events) <. (Search Events) : <<extend>>
+
+
+/'Association'/
+Alumni_Student -- (Log In)
+Alumni_Student -- (Registration)
+Alumni_Student -- (Alumni List)
+Alumni_Student -- (Preview Events)
+
+}
+@enduml
+----
+
+* *Event Manager Module:*
+
+This module maintains the information about various events. update information of events. and interact with the events.
+
+[plantuml]
+----
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+/'Actors'/
+actor Event_Manager
+
+rectangle Alumni_website {
+
+/'Use Cases'/
+(Log In)
+(Alumni List)
+(Scheduling Events)
+(Preview Events)
+
+(Verify Password)
+(Reset Password)
+(Brief Info)
+(Updating Events)
+(Like/Comment On Events)
+(Search Events)
+
+
+/'Include Relationships'/
+
+(Log In) .> (Verify Password) : <<include>>
+
+/'Extend Relationships'/
+(Reset Password) .> (Log In) : <<extend>>
+(Brief Info) .> (Alumni List) : <<extend>>
+(Updating Events) .> (Scheduling Events) : <<extend>>
+(Like/Comment On Events) .> (Preview Events) : <<extend>>
+(Preview Events) <. (Search Events) : <<extend>>
+
+
+/'Association'/
+Event_Manager -- (Log In)
+Event_Manager -- (Alumni List)
+Event_Manager -- (Preview Events)
+Event_Manager -- (Scheduling Events)
+
+}
+@enduml
+----
+
+[source]
+----
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+/'Actors'/
+actor Event_Manager
+
+rectangle Alumni_website {
+
+/'Use Cases'/
+(Log In)
+(Alumni List)
+(Scheduling Events)
+(Preview Events)
+
+(Verify Password)
+(Reset Password)
+(Brief Info)
+(Updating Events)
+(Like/Comment On Events)
+(Search Events)
+
+
+/'Include Relationships'/
+
+(Log In) .> (Verify Password) : <<include>>
+
+/'Extend Relationships'/
+(Reset Password) .> (Log In) : <<extend>>
+(Brief Info) .> (Alumni List) : <<extend>>
+(Updating Events) .> (Scheduling Events) : <<extend>>
+(Like/Comment On Events) .> (Preview Events) : <<extend>>
+(Preview Events) <. (Search Events) : <<extend>>
+
+
+/'Association'/
+Event_Manager -- (Log In)
+Event_Manager -- (Alumni List)
+Event_Manager -- (Preview Events)
+Event_Manager -- (Scheduling Events)
+
+}
+@enduml
+----
+
+
+* *Administrator Module:*
+
+The administrator is responsible for verifying information of user. When a user submits the registeration form, administrator will complete the verification process. The administrator also has access to the list of users and events scheduled. and interact with the events.
+
+[plantuml]
+----
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+/'Actors'/
+actor Admin
+
+rectangle Alumni_website {
+
+/'Use Cases'/
+(Log In)
+(Registration)
+(Alumni List)
+(Preview Events)
+
+(Verify Password)
+(Reset Password)
+(Verify Membership)
+(Brief Info)
+(Like/Comment On Events)
+(Search Events)
+
+
+/'Include Relationships'/
+(Verify Membership) <. (Registration) : <<include>>
+(Log In) .> (Verify Password) : <<include>>
+
+/'Extend Relationships'/
+(Reset Password) .> (Log In) : <<extend>>
+(Brief Info) .> (Alumni List) : <<extend>>
+(Like/Comment On Events) .> (Preview Events) : <<extend>>
+(Preview Events) <. (Search Events) : <<extend>>
+
+
+/'Association'/
+(Log In) -- Admin
+(Alumni List) -- Admin
+(Preview Events) -- Admin
+(Verify Membership) ---- Admin
+
+}
+@enduml
+----
+
+[source]
+----
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+/'Actors'/
+actor Admin
+
+rectangle Alumni_website {
+
+/'Use Cases'/
+(Log In)
+(Registration)
+(Alumni List)
+(Preview Events)
+
+(Verify Password)
+(Reset Password)
+(Verify Membership)
+(Brief Info)
+(Like/Comment On Events)
+(Search Events)
+
+
+/'Include Relationships'/
+(Verify Membership) <. (Registration) : <<include>>
+(Log In) .> (Verify Password) : <<include>>
+
+/'Extend Relationships'/
+(Reset Password) .> (Log In) : <<extend>>
+(Brief Info) .> (Alumni List) : <<extend>>
+(Like/Comment On Events) .> (Preview Events) : <<extend>>
+(Preview Events) <. (Search Events) : <<extend>>
+
+
+/'Association'/
+(Log In) -- Admin
+(Alumni List) -- Admin
+(Preview Events) -- Admin
+(Verify Membership) ---- Admin
+
+}
+@enduml
+----

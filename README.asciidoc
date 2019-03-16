@@ -1,0 +1,4 @@
+
+# Alumni Web System
+
+This proposed web system allows current/graduated students to register and be infromed about the events concern them. Also it has the benefit of having a centralized database of the students community. A student can easily obtain information about other registered students.
