@@ -1,0 +1,71 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+class User {
+  {field} - user_id : Integer
+  {field} - login_name : String
+  {field} - password : String
+  {field} - first_name : String
+  {field} - last_name : String
+  {field} - email : String
+  {field} - login_status : String
+  {method} + login()
+}
+
+class Student {
+  {field} - student_id : Integer
+  {field} - department : String
+  {field} - address : String
+  {field} - phone_number : String
+  {field} - about_student : String
+  {method} + registration()
+  {method} + reset_password()
+  {method} + update_info(user_id : Integer)
+  {method} + show_student_list()
+  {method} + preview_event(event_id : Integer)
+  {method} + search_event(event_id : Integer)
+  {method} + event_interaction(event_id : Integer)
+}
+
+class Event_manager {
+  {field} - phone_number : String
+  {method} + update_info()
+  {method} + preview_student_list()
+  {method} + issue_event()
+  {method} + update_event(event_id : Integer)
+  {method} + preview_event(event_id : Integer)
+  {method} + search_event(event_id : Integer)
+  {method} + event_interaction(event_id : Integer)
+}
+
+class Admin {
+  {method} + verify_user()
+  {method} + update_info()
+  {method} + preview_event(event_id : Integer)
+  {method} + search_event(event_id : Integer)
+  {method} + event_interaction(event_id : Integer)
+}
+
+class Event {
+  {field} - event_id : Integer
+  {field} - date : Date
+  {field} - location : String
+  {field} - theme : String
+  {field} - fee : Integer
+  {field} - participants : List
+  {method} + showEvent()
+  {method} + storeEvent()
+  {method} + updateEvent()
+  {method} + DeleteEvent()
+}
+
+User <|-- Student
+User <|-- Admin
+User <|-- Event_manager
+
+Event_manager "1" *-- "0..*" Event : Issues >
+Student  ..>  Event : <<friend>>
+Admin  ..>  Event : <<friend>>
+
+
+@enduml
