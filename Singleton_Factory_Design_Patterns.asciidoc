@@ -1,0 +1,270 @@
+
+# Design Patterns
+
+In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design. A design pattern isn't a finished design that can be transformed directly into code. It is a description or template for how to solve a problem that can be used in many different situations.
+
+## Creational design patterns:
+
+These design patterns are all about class instantiation. This pattern can be further divided into class-creation patterns and object-creational patterns. While class-creation patterns use inheritance effectively in the instantiation process, object-creation patterns use delegation effectively to get the job done.
+
+
+### * Singleton Pattern :
+A class of which only a single instance can exist. Singleton pattern is used for resources which are to shared globally.
+
+#### Example : Event Hall 
+
+Run Code in : image:img/sandbox.png[link="http://sandbox.onlinephpfunctions.com/code/1619f21c0890bb90dbf3635462c1123354fb2067"]
+
+
+[source, php]
+----
+<?php
+
+/**
+ * Singleton classes
+ http://sandbox.onlinephpfunctions.com/code/1619f21c0890bb90dbf3635462c1123354fb2067
+ */
+class EventHallSingleton {
+    
+    private $hall_no  = 'A15';
+    private $seat_no  = 10;
+    
+    private static $hall = NULL;
+    private static $is_occupied = FALSE;
+    private static $event_id = NULL;
+
+    private function __construct() {
+    }
+
+    static function reserve_hall($event_id) {
+      if (FALSE == self::$is_occupied) {
+        if (NULL == self::$hall) {
+           self::$hall = new EventHallSingleton();
+           self::$event_id = $event_id;
+        }
+        self::$is_occupied = TRUE;
+        self::$event_id = $event_id;
+        return self::$hall;
+      } else {
+        return NULL;
+      }
+    }
+    
+    function free_hall(EventHallSingleton $hall_empty) {
+        self::$is_occupied = FALSE;
+    }
+
+    function getHallNo() {return $this->hall_no;}
+    
+    function getSeatNo() {return $this->seat_no;}
+    
+    function getEventID() {return self::$event_id;}
+
+    function getDesc() {
+      return $this->getHallNo() . " hall contains " . $this->getSeatNo() 
+      . " seats and occupied by event # " . $this->getEventID() ."\r\n";
+    }
+} //End of EventHallSingleton
+
+class HallReserver {
+    private $reserved_hall;
+    private $available = FALSE;
+
+    function __construct() {
+    }
+
+    function getDesc() {
+      if (TRUE == $this->available) {
+        return $this->reserved_hall->getDesc();
+      } else {
+        return "The hall is not available at the moment\r\n";
+      }
+    }
+
+    function reserve_hall($event_id) {
+      $this->reserved_hall = EventHallSingleton::reserve_hall($event_id);
+      if ($this->reserved_hall == NULL) {
+        $this->available = FALSE;
+      } else {
+        $this->available = TRUE;
+      }
+    }
+
+    function free_hall() {
+      $this->reserved_hall->free_hall($this->reserved_hall);
+    }
+} // End of HallReserver
+
+/**
+ * Initialization
+ */
+
+ print "BEGIN TESTING (EventHallSingleton) SINGLETON PATTERN\r\n\n";
+ 
+ $Reserver1 = new HallReserver();
+ $Reserver2 = new HallReserver();
+ 
+ $Reserver1->reserve_hall(123);
+ print "Reserver1 trying to reserve the hall\r\n";
+ print "Reservation information: " . $Reserver1->getDesc() ."\r\n";
+ 
+ $Reserver2->reserve_hall(5656);
+ print "Reserver2 trying to reserve the hall\r\n";
+ print "Reservation information: " . $Reserver2->getDesc() ."\r\n";
+ 
+ $Reserver1->free_hall();
+ print "Reserver1 checked out \r\n\n";
+ 
+ $Reserver2->reserve_hall(777);
+ print "Reserver2 trying to reserve the hall\r\n";
+ print "Reservation information: " . $Reserver2->getDesc() ."\r\n";
+ 
+ print "END TESTING (EventHallSingleton) SINGLETON PATTERN\r\n";
+
+?>
+----
+
+#### Result :
+
+[source,]
+----
+
+BEGIN TESTING (EventHallSingleton) SINGLETON PATTERN
+
+Reserver1 trying to reserve the hall
+Reservation information: A15 hall contains 10 seats and occupied by event # 123
+
+Reserver2 trying to reserve the hall
+Reservation information: The hall is not available at the moment
+
+Reserver1 checked out 
+
+Reserver2 trying to reserve the hall
+Reservation information: A15 hall contains 10 seats and occupied by event # 777
+
+END TESTING (EventHallSingleton) SINGLETON PATTERN
+
+----
+
+
+### * Factory Pattern :
+Creates an instance of several derived classes.
+
+#### Example : Make Event  
+
+Run Code in : image:img/sandbox.png[link="http://sandbox.onlinephpfunctions.com/code/cf55fcab36be69dd83f408961de770fb5120aa47"]
+
+[source, php]
+----
+<?php
+
+/**
+ * Event class
+http://sandbox.onlinephpfunctions.com/code/cf55fcab36be69dd83f408961de770fb5120aa47
+ */
+abstract class AbstractEvent {
+    abstract function getEventManager();
+    abstract function getLocation();
+    abstract function getDateTime();
+    abstract function getDescription();
+} //End AbstractEvent
+
+class Event extends AbstractEvent {
+    private $manager;
+    private $location;
+    private $date_time;
+    private $description;
+    
+    function __construct($manager, $location, $date_time, $description) {
+        $this->manager = $manager;
+        $this->location = $location;
+        $this->date_time = $date_time;
+        $this->description = $description;
+    }
+    
+    // setters
+    function setEventManager($manager) {
+        $this->manager = $manager;
+    }
+    function setLocation($location) {
+        $this->location = $location;
+    }
+    function setDateTime($date_time) {
+        $this->date_time = $date_time;
+    }
+    function setDescription($description) {
+        $this->description = $description;
+    }
+    
+    // getters
+    function getEventManager() {
+        return $this->manager;
+    }
+    function getLocation() {
+        return $this->location;
+    }
+    function getDateTime() {
+        return $this->date_time;
+    }
+    function getDescription() {
+        return $this->description;
+    }
+    
+    function getEventInfo() {
+        return "Event Manager : " . $this->manager . ", Location : " . $this->location 
+        . ", Date/Time : " . $this->date_time . ", Description : " . $this->description . "\r\n\n";
+    }
+    
+} //End Event
+
+/**
+ * EventFactory class
+ */
+abstract class AbstractEventFactory {
+    abstract function makeEvent($manager, $location, $date_time, $description);
+} // End AbstractEventFactory
+
+class EventFactory extends AbstractEventFactory {
+    private $context = "Event";
+    function makeEvent($manager, $location, $date_time, $description){
+        return new Event($manager, $location, $date_time, $description);
+    }
+} // End EventFactory
+
+
+/**
+ * Initialization
+ */
+
+ print "BEGIN TESTING (EventFactory) FACTORY PATTERN \r\n\n";
+ 
+ $eventFactoryInstance = new EventFactory;
+
+ $event1 = $eventFactoryInstance->makeEvent('Ahmed', 'City Hall', '2019-04-06', 'Spring Event 1');
+ print "EVENT(1) => " . $event1->getEventInfo();
+ 
+ $event2 = $eventFactoryInstance->makeEvent('Mert', 'Seka Park', '2019-05-06', 'Spring Event 2');
+ print "EVENT(2) => " . $event2->getEventInfo();
+ 
+ $event3 = $eventFactoryInstance->makeEvent('Hasan', ' City Football Court', '2019-08-06', 'Sport Event');
+ print "EVENT(3) => " . $event3->getEventInfo();
+ 
+?>
+
+----
+
+#### Result :
+
+[source,]
+----
+
+BEGIN TESTING (EventFactory) FACTORY PATTERN 
+
+EVENT(1) => Event Manager : Ahmed, Location : City Hall, Date/Time : 2019-04-06, Description : Spring Event 1
+
+EVENT(2) => Event Manager : Mert, Location : Seka Park, Date/Time : 2019-05-06, Description : Spring Event 2
+
+EVENT(3) => Event Manager : Hasan, Location :  City Football Court, Date/Time : 2019-08-06, Description : Sport Event
+----
+
+
