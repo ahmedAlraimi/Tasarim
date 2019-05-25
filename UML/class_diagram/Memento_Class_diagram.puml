@@ -1,0 +1,33 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Ticket {
+  {field} - currentState
+  {method} + open()
+  {method} + assign()
+  {method} + close()
+  {method} + saveToMemento()
+  {method} + restoreFromMemento(memento)
+  {method} + getState()
+}
+
+class Memento {
+  {field} - state)
+  {method} + getState()
+}
+
+class State {
+  {field} - validStates
+  {field} - state
+  {field} - STATE_CREATED
+  {field} - STATE_OPENED
+  {field} - STATE_ASSIGNED
+  {field} - STATE_CLOSED
+  {static} + ensurelsValidState(state)
+  {method} + __toString()
+}
+
+
+Ticket -> Memento
+Memento <-- State
+@enduml
