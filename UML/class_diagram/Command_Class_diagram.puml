@@ -1,0 +1,39 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface EventCommand{
+  {method} + execute()
+}
+
+class EventLocation {
+  {field} - address : String
+  {field} - seat_no : Integer
+  {method} + reserve()
+  {method} + confirm()
+}
+
+class ReserveLocation {
+  {field} - event_location
+  {method} + __construct(EventLocation)
+  {method} + execute()
+}
+
+class ConfirmLocation {
+  {field} - event_location
+  {method} + __construct(EventLocation)
+  {method} + execute()
+}
+
+class Invoker {
+  {field} - command : EventCommand
+  {method} + setCommand(EventLocation)
+  {method} + run()
+}
+
+Invoker --> EventCommand : uses
+EventLocation -> Invoker : uses
+ReserveLocation -> EventCommand : implements
+EventCommand <- ConfirmLocation : implements
+
+
+@enduml

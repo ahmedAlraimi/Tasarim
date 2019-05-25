@@ -1,0 +1,180 @@
+
+# Design Patterns
+
+In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design. A design pattern isn't a finished design that can be transformed directly into code. It is a description or template for how to solve a problem that can be used in many different situations.
+
+## Behavioral design patterns:
+
+In software engineering, behavioral design patterns are design patterns that identify common communication patterns between objects and realize these patterns. By doing so, these patterns increase flexibility in carrying out this communication.
+
+
+### * Observer Pattern :
+
+Observer pattern is used when there is one-to-many relationship between objects such as if one object is modified, its depenedent objects are to be notified automatically.
+
+Observer pattern falls under behavioral pattern category.
+ 
+#### CODE 
+
+Run Code in : image:img/sandbox.png[link="http://sandbox.onlinephpfunctions.com/code/e0b2f6464993cce31b8046c17e6d05d1a0f80b7a"]
+
+
+[source, php]
+----
+<?php
+/**
+* Event Manager Change Observer Program
+*/
+
+class Event implements \SplSubject
+{
+    /**
+     * @var string
+     */
+    private $event_manager;
+
+    /**
+     * @var \SplObjectStorage
+     */
+    private $observers;
+
+    public function __construct()
+    {
+        $this->observers = new \SplObjectStorage();
+    }
+
+    public function attach(\SplObserver $observer)
+    {
+        $this->observers->attach($observer);
+    }
+
+    public function detach(\SplObserver $observer)
+    {
+        $this->observers->detach($observer);
+    }
+
+    public function changeEventManager(string $event_manager)
+    {
+        $this->event_manager = $event_manager;
+        $this->notify();
+    }
+
+    public function notify()
+    {
+        /** @var \SplObserver $observer */
+        foreach ($this->observers as $observer) {
+            $observer->update($this);
+        }
+    }
+}
+
+class EventObserver implements \SplObserver
+{
+    /**
+     * @var Event[]
+     */
+    private $changedEvents = [];
+
+    /**
+     * It is called by the Subject, usually by SplSubject::notify()
+     *
+     * @param \SplSubject $subject
+     */
+    public function update(\SplSubject $subject)
+    {
+        $this->changedEvents[] = clone $subject;
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function getChangedEvents(): array
+    {
+        return $this->changedEvents;
+    }
+}
+
+//Implementation
+print "\nBEGIN TESTING OBSERVER PATTERN ";
+
+$observer = new EventObserver();
+
+        $event_1 = new Event();
+        $event_1->attach($observer);
+        
+        $event_2 = new Event();
+        $event_2->attach($observer);
+        
+        $event_3 = new Event();
+        $event_3->attach($observer);
+
+        
+        
+        $event_1->changeEventManager('manager1');
+        print "\n\n event_1 has changed";
+        print "\n\n Current Changed Events : " . count( $observer->getChangedEvents() );
+        
+        $event_3->changeEventManager('manager3');
+        print "\n\n event_3 has changed";
+        print "\n\n Current Changed Events : " . count( $observer->getChangedEvents() );
+    
+?>
+
+
+----
+
+#### Result :
+
+[source,]
+----
+
+ BEGIN TESTING OBSERVER PATTERN 
+
+ event_1 has changed
+
+ Current Changed Events : 1
+
+ event_3 has changed
+
+ Current Changed Events : 2
+----
+
+[plantuml]
+----
+@startuml
+skinparam classAttributeIconSize 0
+
+interface SplSubject{
+  {method} + attach(observer)
+  {method} + detach(observer)
+  {method} + notify()
+}
+
+interface SplObserver{
+  {method} + update(subject)
+}
+
+class Event {
+  {field} - event_manager : String
+  {field} - observers : observer
+  {method} + attach(observer)
+  {method} + detach(observer)
+  {method} + changeEventManager(string)
+  {method} + notify()
+}
+
+class EventObserver {
+  {field} - changedEvents[]
+  {method} + update(subject)
+  {method} + getChangedEvents()
+}
+
+SplSubject <.. Event
+SplObserver <- Event : uses
+SplObserver <-- EventObserver : implements
+
+@enduml
+----
+
+
+
