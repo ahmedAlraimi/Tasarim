@@ -1,0 +1,603 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+
+rectangle "VIEWS" as view{
+
+class EventView{
+{method} + printEvent()
+}
+
+class LocationView{
+{method} + printLocation()
+}
+
+class UserView{
+{method} + printUserRegisteration()
+{method} + printUserLogin()
+{method} + printUserResetPassword()
+{method} + printUserProfile()
+}
+
+class PreparationView{
+{method} + print()
+}
+
+class BusServiceView{
+{method} + print()
+}
+
+class TicketView{
+{method} + print()
+{method} + printline()
+}
+
+
+}
+' END OF VIEWS
+
+rectangle "CONTROLLERS" as controller{
+
+class EventController{
+{field} - Factory :EventFactoryProducer
+{field} - View : EventView
+{field} - event : Event
+
+{method} + setModel()
+{method} + setView()
+{method} + login()
+{method} + register()
+{method} + makeEvent()
+
+}
+
+class LocationController{
+{field} - location : Location
+{field} - view : LocationView
+
+{method} + setModel()
+{method} + setView()
+{method} + getLocation()
+{method} + useLocation()
+
+}
+
+class UserController{
+{field} - User : User
+{field} - UserView : UserView
+
+{method} + setUserModel()
+{method} + setUserView()
+{method} + login()
+{method} + register()
+{method} + resetPassword()
+{method} + updateProfile()
+
+}
+
+class PreparationController{
+{field} - preparation : Preparation
+{field} - view : PreparationView
+
+{method} + setModel()
+{method} + setView()
+{method} + build()
+{method} + addprojector()
+{method} + addSoundSystem()
+{method} + addChairs()
+{method} + addSnacks()
+
+}
+
+class BusServiceController{
+{field} - pool : BusServicePool
+{field} - view : BusServiceView
+
+{method} + setModel()
+{method} + setView()
+{method} + CallBusService()
+{method} + Release()
+
+}
+
+class TicketController{
+{field} - STATE_OPEN
+{field} - STATE_CLOSE
+{field} - tickets : TicketList
+{field} - sold_ticket : Ticket
+{field} - view : TicketView
+
+{method} + setModel()
+{method} + setView()
+{method} + buyTicket()
+{method} + getSoldTicket()
+{method} + SoldState()
+{method} + extra()
+
+}
+
+
+}
+' END OF CONTROLLERS
+
+
+
+rectangle "User" as rec{
+
+Interface UserInterface {
+  {method} + getProfile()
+}
+
+class Student {
+{field} - student_profile : StudentProfile
+{field} - attending : Event[]
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(StudentProfile)
+{method} + setAttending(Event)
+{method} + getProfile()
+{method} + getAttending()
+}
+
+class EventManager {
+{field} - event_manager_profile : ManagementProfile
+{field} - related_events : Event[]
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(ManagementProfile)
+{method} + setRelatedEvents(Event)
+{method} + getProfile()
+{method} + getRelatedEvents()
+}
+
+class Admin {
+{field} - event_manager_profile : ManagementProfile
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(ManagementProfile)
+{method} + getProfile()
+}
+
+class User {
+  {field} - id : Integer
+  {field} - login_name : String
+  {field} - password : String
+  {field} - first_name : String
+  {field} - last_name : String
+  {field} - email : String
+  {field} - type : String
+  {field} - login_status : String
+  {method} + setId(Integer)
+  {method} + setLoginName(String)
+  {method} + setPassword(String)
+  {method} + setFirstName(String)
+  {method} + setLastName(String)
+  {method} + setEmail(String)
+  {method} + setType(String)
+  {method} + setLoginStatus(Boolean)
+  {method} + getId()
+  {method} + getLoginName()
+  {method} + getPassword()
+  {method} + getFirstName()
+  {method} + getLastName()
+  {method} + getEmail()
+  {method} + getType()
+  {method} + getLoginStatus()
+
+}
+
+
+
+class StudentProfile {
+  {field} - student_id : Integer
+  {field} - department : String
+  {field} - status : String
+  {field} - address : String
+  {field} - phone_number : String
+
+  {method} + setStudentId(Integer)
+  {method} + setDepartment(String)
+  {method} + setStatus(String)
+  {method} + setAddress(String)
+  {method} + setPhoneNumber(String)
+  {method} + preview()
+}
+
+
+class ManagementProfile {
+  {field} - position : String
+  {field} - address : String
+  {field} - phone_number : String
+
+  {method} + setPosition(String)
+  {method} + setAddress(String)
+  {method} + setPhoneNumber(String)
+  {method} + preview()
+}
+
+
+}
+'End rectangle
+
+class UserFactory {
+  {field} - user
+  {field} - user_type :  String
+
+  {method} + __construct(String)
+  {method} + getUser()
+  {method} + getUserType()
+}
+
+class Location{
+{field} - type : String
+{field} - action : String
+{field} - location : MeetingHallSingleton
+
+{method} + getLocation()
+}
+
+class MeetingHallSingleton{
+{field} - title : String
+{field} - limit : Integer
+{field} - type : String
+{static} - is_occupied
+{static} - hall
+
+{static} + reserve()
+{method} + checkOut()
+{method} + getTitle()
+{method} - __construct()
+{method} - __clone()
+{method} - __wakeup()
+
+}
+
+
+interface ReserveLocationCommand{
+  {method} + execute()
+}
+
+class ReserveLocation {
+  {field} - event_location
+  {method} + __construct(EventLocation)
+  {method} + execute()
+}
+
+
+class Invoker {
+  {field} - command : EventCommand
+  {method} + setCommand(EventLocation)
+  {method} + run()
+}
+
+class EventFactoryProducer {
+  {method} + getFactory()
+}
+
+Abstract class AbstractEventFactory {
+  {method} + makeEvent()
+}
+
+class GraduatedFactory {
+  {method} + makeEvent()
+}
+
+class GeneralFactory {
+  {method} + makeEvent()
+}
+
+Interface Event {
+  {method} + getEventInfo()
+}
+
+class GraduatedEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GraduatedMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GeneralEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GeneralMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+interface SplSubject{
+  {method} + attach(observer)
+  {method} + detach(observer)
+  {method} + notify()
+}
+
+interface SplObserver{
+  {method} + update(subject)
+}
+
+rectangle "Location Preparation" as preparation{
+interface PreparationBuilderInterface{
+{method} + addprojector()
+{method} + addChairs()
+{method} + addSoundSystem()
+{method} + addSnacks()
+}
+
+class ChairPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class ProjectorPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class SnackPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class SoundSystemPrototype{
+{field} - description : String
+{method} + __clone()
+}
+}
+
+class BusServicePool{
+{field} - out_of_service : BusService[]
+{field} - available : BusService[]
+{field} - plate_no : BusService[]
+{method} + __construct()
+{method} + getfree()
+{method} + getfull()
+{method} + getBusService()
+{method} + release()
+}
+
+class BusService{
+{field} - id : Integer
+{field} - plate_no : String
+{method} + getId()
+{method} + getPlateNo()
+}
+
+class TicketListIterator{
+  {field} - ticketList : TicketList
+  {field} - currentTicket : Integer
+  {method} + __construct()
+  {method} + getCurrentTicket()
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class TicketListReverseIterator {
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class Ticket {
+  {field} - seatNo : String
+  {field} - price : Integer
+  {method} + getSeatNo()
+  {method} + getPrice()
+  {method} + getTicketInfo()
+}
+
+class TicketList {
+  {field} - tickets : Ticket[]
+  {field} - ticketCount : Integer
+  {method} + setTicketCount(Integer)
+  {method} + getTicket(Integer)
+  {method} + addTicket(Ticket)
+  {method} + removeTicket(Ticket)
+}
+
+class TicketListIterator {
+  {field} - ticketList : TicketList
+  {field} - currentTicket : Integer
+  {method} + getCurrentTicket()
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class TicketListReverseIterator {
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+
+interface EventTicket{
+  {method} + calculatePrice()
+}
+
+class EventTicketDecorator {
+  {field} - event_ticket : EventTicket
+  {method} + __construct(EventTicket)
+}
+
+class Transportation {
+  {field} - PRICE
+  {method} + calculatePrice()
+}
+
+class OpenBuffet {
+  {field} - PRICE
+  {method} + calculatePrice()
+}
+
+class Memento {
+  {field} - state)
+  {method} + getState()
+}
+
+class State {
+  {field} - validStates
+  {field} - state
+  {field} - STATE_OPENED
+  {field} - STATE_CLOSED
+  {static} + ensurelsValidState(state)
+  {method} + __toString()
+}
+
+
+
+
+UserView <-- UserController : updates
+LocationView <-- LocationController : updates
+EventView <-- EventController : updates
+PreparationView <-- PreparationController : updates
+BusServiceView <-- BusServiceController : updates
+TicketView <-- TicketController : updates
+
+
+Demo_index -> controller : uses
+
+
+
+
+' Singleton Pattern
+LocationController --> Location : uses
+Location --> MeetingHallSingleton : asks
+
+'Command Pattern
+Invoker --> ReserveLocationCommand : uses
+Location -> Invoker : uses
+ReserveLocationCommand --> ReserveLocation : implements
+
+'Factory Pattern
+UserController --> UserFactory : uses
+UserFactory -> rec : creates
+UserInterface <-- Student : implements
+UserInterface <-- EventManager : implements
+UserInterface <-- Admin : implements
+Student --|> User : extends
+EventManager --|> User : extends
+Admin --|> User : extends
+Student --> StudentProfile : uses
+EventManager --> ManagementProfile : uses
+Admin --> ManagementProfile : uses
+
+'Abstract Factory Pattern
+EventController --> EventFactoryProducer : uses
+EventFactoryProducer --> AbstractEventFactory : uses
+AbstractEventFactory <|-- GraduatedFactory : extends
+GraduatedFactory --> Event : creates
+AbstractEventFactory <|-- GeneralFactory : extends
+GeneralFactory --> Event : creates
+Event <-- GraduatedEvent : implements
+Event <-- GraduatedMeeting : implements
+Event <-- GeneralEvent : implements
+Event <-- GeneralMeeting : implements
+
+'Observer Pattern
+SplSubject <-- GraduatedEvent
+SplSubject <-- GraduatedMeeting
+SplSubject <-- GeneralEvent
+SplSubject <-- GeneralMeeting
+GraduatedEvent --> SplObserver : uses
+GraduatedMeeting --> SplObserver : uses
+GeneralEvent --> SplObserver : uses
+GeneralMeeting --> SplObserver : uses
+SplObserver <- Student : implements
+SplObserver <- EventManager : implements
+
+'Builder Pattern and Prototype Pattern
+PreparationController --> PreparationBuilderInterface : builds
+PreparationBuilderInterface --> ChairPrototype : uses
+PreparationBuilderInterface ---> ProjectorPrototype : uses
+PreparationBuilderInterface ---> SnackPrototype : uses
+PreparationBuilderInterface --> SoundSystemPrototype : uses
+
+'ObjectPool Pattern
+BusServiceController --> BusServicePool : asks for BusService
+BusServicePool --> BusService : uses
+
+' Iterator Pattern
+TicketController --> TicketListIterator : applies
+TicketController --> TicketListReverseIterator : applies
+TicketListIterator <|- TicketListReverseIterator : extends
+TicketList --> Ticket : uses
+TicketListIterator -->TicketList : iterats
+
+'Memento Pattern
+Ticket -> Memento
+Memento <-- State
+TicketController --> Memento : applies
+
+'Decorator
+EventTicket <.. EventTicketDecorator
+EventTicket <.. Ticket
+EventTicketDecorator <-- Transportation
+EventTicketDecorator <-- OpenBuffet
+TicketController ---> EventTicket : uses
+
+@enduml

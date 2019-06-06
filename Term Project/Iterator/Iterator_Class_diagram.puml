@@ -1,0 +1,38 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Ticket {
+  {field} - seatNo : String
+  {field} - price : Integer
+  {method} + getSeatNo()
+  {method} + getPrice()
+  {method} + getTicketInfo()
+}
+
+class TicketList {
+  {field} - tickets : Ticket[]
+  {field} - ticketCount : Integer
+  {method} + setTicketCount(Integer)
+  {method} + getTicket(Integer)
+  {method} + addTicket(Ticket)
+  {method} + removeTicket(Ticket)
+}
+
+class TicketListIterator {
+  {field} - ticketList : TicketList
+  {field} - currentTicket : Integer
+  {method} + getCurrentTicket()
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class TicketListReverseIterator {
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+TicketListIterator <|-- TicketListReverseIterator : extends
+Ticket <-- TicketList : uses
+TicketList <-- TicketListIterator : iterats
+
+@enduml

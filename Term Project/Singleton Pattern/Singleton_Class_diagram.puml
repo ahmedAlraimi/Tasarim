@@ -1,0 +1,56 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class LocationController{
+{field} - location : Location
+{field} - view : LocationView
+
+{method} + setModel()
+{method} + setView()
+{method} + getLocation()
+{method} + useLocation()
+
+}
+
+
+class LocationView{
+{method} + printLocation()
+}
+
+class Location{
+{field} - type : String
+{field} - action : String
+{field} - location : MeetingHallSingleton
+
+{method} + getLocation()
+}
+
+class MeetingHallSingleton{
+{field} - title : String
+{field} - limit : Integer
+{field} - type : String
+{static} - is_occupied
+{static} - hall
+
+{static} + reserve()
+{method} + checkOut()
+{method} + getTitle()
+{method} - __construct()
+{method} - __clone()
+{method} - __wakeup()
+
+}
+
+
+LocationController <- Demo_index : uses
+LocationView <- LocationController : updates
+LocationController --> Location : uses
+Location --> MeetingHallSingleton : asks
+
+
+@enduml

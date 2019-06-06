@@ -1,0 +1,83 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+class FactoryProducer {
+  {method} + getFactory()
+}
+
+Abstract class AbstractEventFactory {
+  {method} + makeEvent()
+}
+
+class GraduatedFactory {
+  {method} + makeEvent()
+}
+
+class NormalFactory {
+  {method} + makeEvent()
+}
+
+Interface Event {
+  {method} + getEventInfo()
+}
+
+class GraduatedEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GraduatedMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class NormalEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class NormalMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+AbstractEventFactory <- FactoryProducer : uses
+AbstractEventFactory <|-- GraduatedFactory : extends
+GraduatedFactory --> Event : creates
+AbstractEventFactory <|-- NormalFactory : extends
+NormalFactory --> Event : creates
+
+Event <-- GraduatedEvent : implements
+Event <-- GraduatedMeeting : implements
+Event <-- NormalEvent : implements
+Event <-- NormalMeeting : implements
+
+@enduml

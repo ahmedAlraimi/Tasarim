@@ -1,0 +1,159 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class StudentController{
+{field} - User : User
+{field} - UserView : UserView
+
+{method} + setUserModel()
+{method} + setUserView()
+{method} + login()
+{method} + register()
+{method} + resetPassword()
+{method} + updateProfile()
+
+}
+
+
+class StudentView{
+{method} + printUserRegisteration()
+{method} + printUserLogin()
+{method} + printUserResetPassword()
+{method} + printUserProfile()
+}
+
+rectangle "User" as rec{
+
+Interface UserInterface {
+  {method} + getProfile()
+}
+
+class Student {
+{field} - student_profile : StudentProfile
+{field} - attending : Event[]
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(StudentProfile)
+{method} + setAttending(Event)
+{method} + getProfile()
+{method} + getAttending()
+}
+
+class EventManager {
+{field} - event_manager_profile : ManagementProfile
+{field} - related_events : Event[]
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(ManagementProfile)
+{method} + setRelatedEvents(Event)
+{method} + getProfile()
+{method} + getRelatedEvents()
+}
+
+class Admin {
+{field} - event_manager_profile : ManagementProfile
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(ManagementProfile)
+{method} + getProfile()
+}
+
+class User {
+  {field} - id : Integer
+  {field} - login_name : String
+  {field} - password : String
+  {field} - first_name : String
+  {field} - last_name : String
+  {field} - email : String
+  {field} - type : String
+  {field} - login_status : String
+  {method} + setId(Integer)
+  {method} + setLoginName(String)
+  {method} + setPassword(String)
+  {method} + setFirstName(String)
+  {method} + setLastName(String)
+  {method} + setEmail(String)
+  {method} + setType(String)
+  {method} + setLoginStatus(Boolean)
+  {method} + getId()
+  {method} + getLoginName()
+  {method} + getPassword()
+  {method} + getFirstName()
+  {method} + getLastName()
+  {method} + getEmail()
+  {method} + getType()
+  {method} + getLoginStatus()
+
+}
+
+
+
+class StudentProfile {
+  {field} - student_id : Integer
+  {field} - department : String
+  {field} - status : String
+  {field} - address : String
+  {field} - phone_number : String
+
+  {method} + setStudentId(Integer)
+  {method} + setDepartment(String)
+  {method} + setStatus(String)
+  {method} + setAddress(String)
+  {method} + setPhoneNumber(String)
+  {method} + preview()
+}
+
+
+class ManagementProfile {
+  {field} - position : String
+  {field} - address : String
+  {field} - phone_number : String
+
+  {method} + setPosition(String)
+  {method} + setAddress(String)
+  {method} + setPhoneNumber(String)
+  {method} + preview()
+}
+
+
+}
+'End rectangle
+
+class UserFactory {
+  {field} - user
+  {field} - user_type :  String
+
+  {method} + __construct(String)
+  {method} + getUser()
+  {method} + getUserType()
+}
+
+
+StudentController <- Demo_index : uses
+StudentView <- StudentController : updates
+StudentController --> UserFactory : uses
+
+UserFactory -> rec : creates
+UserInterface <-- Student : implements
+UserInterface <-- EventManager : implements
+UserInterface <-- Admin : implements
+
+Student --|> User : extends
+EventManager --|> User : extends
+Admin --|> User : extends
+
+Student --> StudentProfile : uses
+EventManager --> ManagementProfile : uses
+Admin --> ManagementProfile : uses
+@enduml

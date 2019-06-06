@@ -1,0 +1,235 @@
+
+
+# Design Patterns
+
+In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design. A design pattern isn't a finished design that can be transformed directly into code. It is a description or template for how to solve a problem that can be used in many different situations.
+
+## Creational design patterns:
+
+These design patterns are all about class instantiation. This pattern can be further divided into class-creation patterns and object-creational patterns. While class-creation patterns use inheritance effectively in the instantiation process, object-creation patterns use delegation effectively to get the job done.
+
+
+### * Prototype Pattern :
+Prototype allows us to hide the complexity of making new instances from the client. The concept is to copy an existing object rather than creating a new instance from scratch, something that may include costly operations. The existing object acts as a prototype and contains the state of the object. The newly copied object may change same properties only if required. This approach saves costly resources and time, especially when the object creation is a heavy process.
+
+#### Shallow Copy
+
+Run Code in : image:img/sandbox.png[link="http://sandbox.onlinephpfunctions.com/code/6ccc0a2d182fabe5f1732173a539c5de48709118"]
+
+
+[source, php]
+----
+<?php
+
+// Event Manager Class
+class EventManager {
+    protected $name;
+
+    public function setName($name) {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+}
+
+
+// Event Class
+class Event {
+    protected $event_manager;
+
+    public function setEventManager(EventManager $manager) {
+        $this->event_manager = $manager;
+        return $this;
+    }
+
+    public function getEventManager() {
+        return $this->event_manager;
+    }
+}
+
+$manager1 = new EventManager();
+$manager1->setName("Ahmed");
+
+$event1 = new Event();
+$event1->setEventManager($manager1);
+
+$event2 = clone $event1;
+
+$manager2 = new EventManager();
+$manager2->setName("Hasan");
+$event2->setEventManager($manager2);
+
+print "\nTrail 1 : \n";
+
+print $event1->getEventManager()->getName(); // Outputs "Ahmed"
+/* As $event2 is a clone, setting a new value for $event2->event_manager did not change $event1. 
+ Let’s look at this from a different angle.
+*/
+
+$manager1 = new EventManager();
+$manager1->setName("Ahmed");
+
+$event1 = new Event();
+$event1->setEventManager($manager1);
+
+$event2 = clone $event1;
+
+$event2->getEventManager()->setName("Hasan");
+print "\n\nTrail 2 : \n";
+print $event1->getEventManager()->getName(); // Outputs "Hasan"
+
+?>
+----
+
+#### Result :
+
+[source,]
+----
+
+Trail 1 : 
+Ahmed
+
+Trail 2 : 
+Hasan
+
+----
+
+The plot thickens. Here we can see that $event1->event_manager and $event2->event_manager both point to the same event. $event1 and $event2 are both unique objects but they do not have unique values for properties that are references or object identifiers. This is what is meant by a shallow copy. If we wanted the two events to be completely separate we would need to change the default behavior of clone to perform a deep copy instead of a shallow copy. To do this I define the magic __clone method.
+
+
+#### Deep Copy
+
+Run Code in : image:img/sandbox.png[link="http://sandbox.onlinephpfunctions.com/code/1f0eaf7f9074621d90c73d23e64f5138fabdaade"]
+
+
+[source, php]
+----
+<?php
+
+// Event Manager Class
+class EventManager {
+    protected $name;
+
+    public function setName($name) {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+}
+
+
+// Event Class
+class Event {
+    protected $event_manager;
+
+    public function setEventManager(EventManager $manager) {
+        $this->event_manager = $manager;
+        return $this;
+    }
+
+    public function getEventManager() {
+        return $this->event_manager;
+    }
+    
+    public function __clone() {
+        $this->event_manager = clone $this->event_manager;
+    }
+}
+
+$manager1 = new EventManager();
+$manager1->setName("Ahmed");
+
+$event1 = new Event();
+$event1->setEventManager($manager1);
+
+$event2 = clone $event1;
+
+$manager2 = new EventManager();
+$manager2->setName("Hasan");
+$event2->setEventManager($manager2);
+
+print "\nTrail 1 : \n";
+
+print $event1->getEventManager()->getName(); // Outputs "Ahmed"
+/* As $event2 is a clone, setting a new value for $event2->event_manager did not change $event1. 
+ Let’s look at this from a different angle.
+*/
+
+$manager1 = new EventManager();
+$manager1->setName("Ahmed");
+
+$event1 = new Event();
+$event1->setEventManager($manager1);
+
+$event2 = clone $event1;
+
+$event2->getEventManager()->setName("Hasan");
+print "\n\nTrail 2 : \n";
+print $event1->getEventManager()->getName(); // Outputs "Ahmed"
+print "\n";
+print $event2->getEventManager()->getName(); // Outputs "Hasan"
+
+
+
+/*
+Note that a common technique for ensuring a deep copy is to serialize 
+then immediately unserialize each of a class’s object properties.
+
+public function __clone() {
+    foreach($this as $key => $val) {
+        if (is_object($val) || (is_array($val))) {
+            $this->{$key} = unserialize(serialize($val));
+        }
+    }
+}
+
+*/
+?>
+----
+
+#### Result :
+
+[source,]
+----
+
+Trail 1 : 
+Ahmed
+
+Trail 2 : 
+Ahmed
+Hasan
+
+----
+
+[plantuml]
+----
+@startuml
+skinparam classAttributeIconSize 0
+
+
+class EventManager{
+  {field} - name : String
+  {method} + setName()
+  {method} + getName()
+}
+
+class Event {
+  {field} - event_manager : EventMAnager
+  {method} + setEventManager(EventManager)
+  {method} + setEventManager()
+  {method} + __clone()
+}
+
+
+EventManager <-- Event
+
+@enduml
+----

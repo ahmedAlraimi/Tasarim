@@ -1,0 +1,40 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+class EventBuilder {
+  {method} + makeEvent(String, String ,String,String)
+}
+
+Interface EventInterface {
+  {method} + getEventInfo()
+}
+
+class Event {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class EventManager {
+  {field} - manager : String
+  {method} + getEventManager()
+}
+
+class Location {
+  {field} - location : String
+  {method} + getLocation()
+}
+
+Event <- EventBuilder : builds
+EventBuilder --> EventManager : uses
+EventBuilder --> Location : uses
+EventInterface <-- Event : implements
+
+
+@enduml

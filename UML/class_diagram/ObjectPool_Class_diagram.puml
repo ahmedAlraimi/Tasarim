@@ -1,0 +1,47 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class BusServiceController{
+{field} - pool : BusServicePool
+{field} - view : BusServiceView
+
+{method} + setModel()
+{method} + setView()
+{method} + CallBusService()
+{method} + Release()
+
+}
+
+class BusServiceView{
+{method} + print()
+}
+
+class BusServicePool{
+{field} - out_of_service : BusService[]
+{field} - available : BusService[]
+{field} - plate_no : BusService[]
+{method} + __construct()
+{method} + getfree()
+{method} + getfull()
+{method} + getBusService()
+{method} + release()
+}
+
+class BusService{
+{field} - id : Integer
+{field} - plate_no : String
+{method} + getId()
+{method} + getPlateNo()
+}
+
+
+BusServiceController <- Demo_index : uses
+BusServiceView <- BusServiceController : updates
+BusServiceController --> BusServicePool : asks for BusService
+BusServicePool --> BusService : uses
+@enduml

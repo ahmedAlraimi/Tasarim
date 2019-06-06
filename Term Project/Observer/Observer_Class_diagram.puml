@@ -1,0 +1,33 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface SplSubject{
+  {method} + attach(observer)
+  {method} + detach(observer)
+  {method} + notify()
+}
+
+interface SplObserver{
+  {method} + update(subject)
+}
+
+class Event {
+  {field} - event_manager : String
+  {field} - observers : observer
+  {method} + attach(observer)
+  {method} + detach(observer)
+  {method} + changeEventManager(string)
+  {method} + notify()
+}
+
+class EventObserver {
+  {field} - changedEvents[]
+  {method} + update(subject)
+  {method} + getChangedEvents()
+}
+
+SplSubject <.. Event
+SplObserver <- Event : uses
+SplObserver <-- EventObserver : implements
+
+@enduml

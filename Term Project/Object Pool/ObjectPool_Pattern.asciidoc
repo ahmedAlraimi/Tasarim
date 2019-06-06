@@ -1,0 +1,241 @@
+
+
+# Design Patterns
+
+In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design. A design pattern isn't a finished design that can be transformed directly into code. It is a description or template for how to solve a problem that can be used in many different situations.
+
+## Creational design patterns:
+
+These design patterns are all about class instantiation. This pattern can be further divided into class-creation patterns and object-creational patterns. While class-creation patterns use inheritance effectively in the instantiation process, object-creation patterns use delegation effectively to get the job done.
+
+
+### * Prototype Pattern :
+Prototype allows us to hide the complexity of making new instances from the client. The concept is to copy an existing object rather than creating a new instance from scratch, something that may include costly operations. The existing object acts as a prototype and contains the state of the object. The newly copied object may change same properties only if required. This approach saves costly resources and time, especially when the object creation is a heavy process.
+
+#### Shallow Copy
+
+Run Code in : image:img/sandbox.png[link="http://sandbox.onlinephpfunctions.com/code/7fd5f1c26b0db932a5815a9812c86e5ca13f5128"]
+
+
+[source, php]
+----
+<?php
+
+class BusServiceController {
+    
+
+
+    private $pool;
+
+    private $view;
+
+    public function setModel($model){
+        $this->pool = $model;
+    }
+
+    public function setView($view){
+        $this->view = $view;
+    }
+
+
+    public function CallBusService(){
+
+        $this->view->print($this->pool->getBusService() );
+    }
+
+    public function Release($bus){
+
+        $this->view->print($this->pool->release($bus) );
+    }
+
+    
+
+}
+
+class BusServiceView
+	{
+
+	    public function print($input){
+	    	var_dump($input) ;
+	    }
+	    
+	}
+	
+class BusServicePool
+{
+    private $out_of_service = [];
+    private $available = [];
+    private $plate_no = [];
+
+    public function __construct($plate_no){
+    	$this->plate_no = $plate_no;
+    }
+
+    public function getfree(){
+    	return $this->available;
+    }
+
+    public function getfull(){
+    	return $this->out_of_service;
+    }
+
+    public function getBusService()
+    {
+
+    	if(count($this->out_of_service) == count($this->plate_no)){
+    		$response = array(
+    			'response'  	=> false,
+    			'id'  			=> null,
+    			'plate_id' 		=> null,
+    			'message' 		=> 'No availabe bus service !! ,please check later ..'
+    		);
+    		return $response;
+    	}
+
+        if (count($this->available) == 0) {
+        	print "(".count($this->available).")";
+
+            $id = count($this->out_of_service) + count($this->available) + 1;
+            $plate = $id - 1;
+            $bus_service = new BusService($id, $this->plate_no[$plate]);
+        } else {
+            $bus_service = array_pop($this->available);
+        }
+        $this->out_of_service[$bus_service->getId()] = $bus_service;
+        $response = array(
+    			'response'	  	=> true,
+    			'id'  			=> $bus_service->getId(),
+    			'plate_id' 		=> $bus_service->getPlateNo(),
+    			'message' 		=> 'Bus service available'
+    		);
+        return $response;
+    }
+
+    public function release($id)
+    {
+
+        if (isset($this->out_of_service[$id])) {
+            $this->available[$id] = $this->out_of_service[$id];
+            unset($this->out_of_service[$id]);
+        }
+
+        $response = array(
+            'response'      => false,
+            'id'            => $id,
+            'message'       => 'Released ..'
+        );
+        return $response;
+    }
+}
+
+class BusService
+{
+    
+    private $id;
+    private $plate_no;
+
+    public function __construct($id, $plate_no)
+    {
+    	$this->id 		= $id;
+        $this->plate_no = $plate_no;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getPlateNo()
+    {
+        return $this->plate_no;
+    }
+
+}
+
+///// DEMO
+
+ //  Model
+$plates = array('111', '222', '333');
+$pool = new BusServicePool($plates);
+
+ // View
+$bus_view = new BusServiceView();
+
+ // Controller
+$bus_service_controller = new BusServiceController();
+
+$bus_service_controller->setModel($pool);
+$bus_service_controller->setView($bus_view);
+
+print "\n\n Call a Bus From Pool (111, 222, 333) \n\n";
+$bus1 = $bus_service_controller->CallBusService();
+
+print "\n\n Call a Bus From Pool (111, 222, 333) \n\n";
+$bus2 = $bus_service_controller->CallBusService();
+
+print "\n\n Call a Bus From Pool (111, 222, 333) \n\n";
+$bus3 = $bus_service_controller->CallBusService();
+
+print "\n\n Call a Bus From Pool (111, 222, 333) \n\n";
+$bus4 = $bus_service_controller->CallBusService();
+
+print "\n\n Release a Bus From Pool (111, 222, 333) \n\n";
+$bus_service_controller->release(3);
+
+print "\n\n Call a Bus From Pool (111, 222, 333) \n\n";
+$bus4 = $bus_service_controller->CallBusService();
+
+?>
+----
+
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class BusServiceController{
+{field} - pool : BusServicePool
+{field} - view : BusServiceView
+
+{method} + setModel()
+{method} + setView()
+{method} + CallBusService()
+{method} + Release()
+
+}
+
+class BusServiceView{
+{method} + print()
+}
+
+class BusServicePool{
+{field} - out_of_service : BusService[]
+{field} - available : BusService[]
+{field} - plate_no : BusService[]
+{method} + __construct()
+{method} + getfree()
+{method} + getfull()
+{method} + getBusService()
+{method} + release()
+}
+
+class BusService{
+{field} - id : Integer
+{field} - plate_no : String
+{method} + getId()
+{method} + getPlateNo()
+}
+
+
+BusServiceController <- Demo_index : uses
+BusServiceView <- BusServiceController : updates
+BusServiceController --> BusServicePool : asks for BusService
+BusServicePool --> BusService : uses
+@enduml
+----

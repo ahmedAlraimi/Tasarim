@@ -1,0 +1,21 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+
+class EventManager{
+  {field} - name : String
+  {method} + setName()
+  {method} + getName()
+}
+
+class Event {
+  {field} - event_manager : EventMAnager
+  {method} + setEventManager(EventManager)
+  {method} + setEventManager()
+  {method} + __clone()
+}
+
+
+EventManager <-- Event
+
+@enduml

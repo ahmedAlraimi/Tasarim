@@ -1,0 +1,221 @@
+
+
+# Design Patterns
+
+In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design. A design pattern isn't a finished design that can be transformed directly into code. It is a description or template for how to solve a problem that can be used in many different situations.
+
+## Behavioral design patterns:
+
+In software engineering, behavioral design patterns are design patterns that identify common communication patterns between objects and realize these patterns. By doing so, these patterns increase flexibility in carrying out this communication.
+
+
+### * Memento Pattern :
+
+Memento pattern is used to restore state of an object to a previous state. It provides the ability to restore an object to it’s previous state (undo via rollback) or to gain access to state of the object, without revealing it’s implementation (i.e., the object is not required to have a function to return the current state). Memento pattern falls under behavioral pattern category.
+
+The memento pattern is implemented with three objects: the Originator, a Caretaker and a Memento.
+ 
+#### CODE 
+
+Run Code in : image:img/sandbox.png[link="http://sandbox.onlinephpfunctions.com/code/e5a9f82d7f898eeced1221e3258a6bbcced89e55"]
+
+
+[source, php]
+----
+<?php
+
+
+class Memento
+{
+    /**
+     * @var State
+     */
+    private $state;
+
+    /**
+     * @param State $stateToSave
+     */
+    public function __construct(State $stateToSave)
+    {
+        $this->state = $stateToSave;
+    }
+
+    /**
+     * @return State
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+}
+
+class State
+{
+    const STATE_CREATED = 'created';
+    const STATE_OPENED = 'opened';
+    const STATE_ASSIGNED = 'assigned';
+    const STATE_CLOSED = 'closed';
+
+    /**
+     * @var string
+     */
+    private $state;
+
+    /**
+     * @var string[]
+     */
+    private static $validStates = [
+        self::STATE_CREATED,
+        self::STATE_OPENED,
+        self::STATE_ASSIGNED,
+        self::STATE_CLOSED,
+    ];
+
+    /**
+     * @param string $state
+     */
+    public function __construct(string $state)
+    {
+        self::ensureIsValidState($state);
+
+        $this->state = $state;
+    }
+
+    private static function ensureIsValidState(string $state)
+    {
+        if (!in_array($state, self::$validStates)) {
+            throw new \InvalidArgumentException('Invalid state given');
+        }
+    }
+
+    public function __toString(): string
+    {
+        return $this->state;
+    }
+}
+
+/**
+ * Ticket is the "Originator" in this implementation
+ */
+class Ticket
+{
+    /**
+     * @var State
+     */
+    private $currentState;
+
+    public function __construct()
+    {
+        $this->currentState = new State(State::STATE_CREATED);
+    }
+
+    public function open()
+    {
+        $this->currentState = new State(State::STATE_OPENED);
+    }
+
+    public function assign()
+    {
+        $this->currentState = new State(State::STATE_ASSIGNED);
+    }
+
+    public function close()
+    {
+        $this->currentState = new State(State::STATE_CLOSED);
+    }
+
+    public function saveToMemento(): Memento
+    {
+        return new Memento(clone $this->currentState);
+    }
+
+    public function restoreFromMemento(Memento $memento)
+    {
+        $this->currentState = $memento->getState();
+    }
+
+    public function getState(): State
+    {
+        return $this->currentState;
+    }
+}
+
+//Implementation
+print "\nBEGIN TESTING MEMENTO PATTERN ";
+
+$ticket = new Ticket();
+
+        // open the ticket
+        $ticket->open();
+        $openedState = $ticket->getState();
+        print "\n\n After open the ticket , getState : " . (string) $ticket->getState();
+
+        $memento = $ticket->saveToMemento();
+
+        // assign the ticket
+        $ticket->assign();
+        print "\n\n After assign the ticket , getState : " . (string) $ticket->getState();
+
+        // now restore to the opened state, but verify that the state object has been cloned for the memento
+        $ticket->restoreFromMemento($memento);
+
+        print "\n\n After open the ticket , getState : " . (string) $ticket->getState();
+
+?>
+
+
+----
+
+#### Result :
+
+[source,]
+----
+BEGIN TESTING MEMENTO PATTERN 
+
+ After open the ticket , getState : opened
+
+ After assign the ticket , getState : assigned
+
+ After open the ticket , getState : opened
+
+----
+
+[plantuml]
+----
+@startuml
+skinparam classAttributeIconSize 0
+
+class Ticket {
+  {field} - currentState
+  {method} + open()
+  {method} + assign()
+  {method} + close()
+  {method} + saveToMemento()
+  {method} + restoreFromMemento(memento)
+  {method} + getState()
+}
+
+class Memento {
+  {field} - state)
+  {method} + getState()
+}
+
+class State {
+  {field} - validStates
+  {field} - state
+  {field} - STATE_CREATED
+  {field} - STATE_OPENED
+  {field} - STATE_ASSIGNED
+  {field} - STATE_CLOSED
+  {static} + ensurelsValidState(state)
+  {method} + __toString()
+}
+
+
+Ticket -> Memento
+Memento <-- State
+@enduml
+----
+
+
+

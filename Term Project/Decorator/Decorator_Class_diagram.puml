@@ -1,0 +1,37 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+interface EventTicket{
+  {method} + calculatePrice()
+  {method} + getDescription()
+}
+
+class EventTicketDecorator {
+  {field} - event_ticket : EventTicket
+  {method} + __construct(EventTicket)
+}
+
+class Ticket {
+  {method} + calculatePrice()
+  {method} + getDescription()
+}
+
+class Transportation {
+  {field} - PRICE
+  {method} + calculatePrice()
+  {method} + getDescription()
+}
+
+class OpenBuffet {
+  {field} - PRICE
+  {method} + calculatePrice()
+  {method} + getDescription()
+}
+
+EventTicket <.. EventTicketDecorator
+EventTicket <.. Ticket
+
+EventTicketDecorator <-- Transportation
+EventTicketDecorator <-- OpenBuffet
+
+@enduml

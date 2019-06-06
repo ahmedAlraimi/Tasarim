@@ -1,0 +1,1708 @@
+Student Name : Ahmed ALRAIMI
+
+ID : 176103004
+
+# Alumni Web System
+
+This proposed web system allows current/graduated students to register and be infromed about the events concern them. Also it has the benefit of having a centralized database of the students community. A student can easily obtain information about other registered students.
+
+## STRUCTURE:
+
+### USER  ( Factory Pattern)
+using factory pattern to create student, event manager , or admin objects of users. and these users can observe creating new events so they can notified using observer pattern in EVENT module.
+
+### LOCATION (Singleton and Command Pattern)
+event location can instanitiated using singleton pattern to reserve meeting school hall. if it is free the same hall object will handed over to the reserver. and using command pattern to reserve any other location such as park for activity events.
+
+### EVENT (Abstract Factory and Observer Pattern)
+this pattern is utilized to make different events such as graduated or general , events or meetings. Using observer pattern the moment the event is created it sends a notification to the users in order to be previewed by them.
+
+### EVENT PREPARATION (Builder and Prototype Pattern)
+the location of the event needs to be prepare with equipments such as projectors, sound systems , chairs etc. using both builder and prototype helps in building the location with needed equipments and also with prototype no need to create objects of the same class where it can be cloned.
+
+### EVENT BUS SERVICE (Object Pool Pattern)
+school bus services are limited therefore using pool pattern calling bus services are from the pool to be able to use the reusable ones and also to define a limit where the user will have to wait until it is available to used again.
+
+### TICKET (Iterator, Memento , and Decorator Patterns)
+using iterator to check through a list of ticket to find the availble one , the moment it is sold using memento the status of the ticket will be changed to SOLD. then if extra fees are required for transportation of food service using decorator it can be possible.
+
+
+### MVC Pattern is applied in this project.
+
+## CODE : 
+The codes for this project is found under the folder : Desgin_Pattern. Since it is a web application (php) a local server such as (wamp , xamp) is required to run the application
+
+## UML : 
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+
+rectangle "VIEWS" as view{
+
+class EventView{
+{method} + printEvent()
+}
+
+class LocationView{
+{method} + printLocation()
+}
+
+class UserView{
+{method} + printUserRegisteration()
+{method} + printUserLogin()
+{method} + printUserResetPassword()
+{method} + printUserProfile()
+}
+
+class PreparationView{
+{method} + print()
+}
+
+class BusServiceView{
+{method} + print()
+}
+
+class TicketView{
+{method} + print()
+{method} + printline()
+}
+
+
+}
+' END OF VIEWS
+
+rectangle "CONTROLLERS" as controller{
+
+class EventController{
+{field} - Factory :EventFactoryProducer
+{field} - View : EventView
+{field} - event : Event
+
+{method} + setModel()
+{method} + setView()
+{method} + login()
+{method} + register()
+{method} + makeEvent()
+
+}
+
+class LocationController{
+{field} - location : Location
+{field} - view : LocationView
+
+{method} + setModel()
+{method} + setView()
+{method} + getLocation()
+{method} + useLocation()
+
+}
+
+class UserController{
+{field} - User : User
+{field} - UserView : UserView
+
+{method} + setUserModel()
+{method} + setUserView()
+{method} + login()
+{method} + register()
+{method} + resetPassword()
+{method} + updateProfile()
+
+}
+
+class PreparationController{
+{field} - preparation : Preparation
+{field} - view : PreparationView
+
+{method} + setModel()
+{method} + setView()
+{method} + build()
+{method} + addprojector()
+{method} + addSoundSystem()
+{method} + addChairs()
+{method} + addSnacks()
+
+}
+
+class BusServiceController{
+{field} - pool : BusServicePool
+{field} - view : BusServiceView
+
+{method} + setModel()
+{method} + setView()
+{method} + CallBusService()
+{method} + Release()
+
+}
+
+class TicketController{
+{field} - STATE_OPEN
+{field} - STATE_CLOSE
+{field} - tickets : TicketList
+{field} - sold_ticket : Ticket
+{field} - view : TicketView
+
+{method} + setModel()
+{method} + setView()
+{method} + buyTicket()
+{method} + getSoldTicket()
+{method} + SoldState()
+{method} + extra()
+
+}
+
+
+}
+' END OF CONTROLLERS
+
+
+
+rectangle "User" as rec{
+
+Interface UserInterface {
+  {method} + getProfile()
+}
+
+class Student {
+{field} - student_profile : StudentProfile
+{field} - attending : Event[]
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(StudentProfile)
+{method} + setAttending(Event)
+{method} + getProfile()
+{method} + getAttending()
+}
+
+class EventManager {
+{field} - event_manager_profile : ManagementProfile
+{field} - related_events : Event[]
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(ManagementProfile)
+{method} + setRelatedEvents(Event)
+{method} + getProfile()
+{method} + getRelatedEvents()
+}
+
+class Admin {
+{field} - event_manager_profile : ManagementProfile
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(ManagementProfile)
+{method} + getProfile()
+}
+
+class User {
+  {field} - id : Integer
+  {field} - login_name : String
+  {field} - password : String
+  {field} - first_name : String
+  {field} - last_name : String
+  {field} - email : String
+  {field} - type : String
+  {field} - login_status : String
+  {method} + setId(Integer)
+  {method} + setLoginName(String)
+  {method} + setPassword(String)
+  {method} + setFirstName(String)
+  {method} + setLastName(String)
+  {method} + setEmail(String)
+  {method} + setType(String)
+  {method} + setLoginStatus(Boolean)
+  {method} + getId()
+  {method} + getLoginName()
+  {method} + getPassword()
+  {method} + getFirstName()
+  {method} + getLastName()
+  {method} + getEmail()
+  {method} + getType()
+  {method} + getLoginStatus()
+
+}
+
+
+
+class StudentProfile {
+  {field} - student_id : Integer
+  {field} - department : String
+  {field} - status : String
+  {field} - address : String
+  {field} - phone_number : String
+
+  {method} + setStudentId(Integer)
+  {method} + setDepartment(String)
+  {method} + setStatus(String)
+  {method} + setAddress(String)
+  {method} + setPhoneNumber(String)
+  {method} + preview()
+}
+
+
+class ManagementProfile {
+  {field} - position : String
+  {field} - address : String
+  {field} - phone_number : String
+
+  {method} + setPosition(String)
+  {method} + setAddress(String)
+  {method} + setPhoneNumber(String)
+  {method} + preview()
+}
+
+
+}
+'End rectangle
+
+class UserFactory {
+  {field} - user
+  {field} - user_type :  String
+
+  {method} + __construct(String)
+  {method} + getUser()
+  {method} + getUserType()
+}
+
+class Location{
+{field} - type : String
+{field} - action : String
+{field} - location : MeetingHallSingleton
+
+{method} + getLocation()
+}
+
+class MeetingHallSingleton{
+{field} - title : String
+{field} - limit : Integer
+{field} - type : String
+{static} - is_occupied
+{static} - hall
+
+{static} + reserve()
+{method} + checkOut()
+{method} + getTitle()
+{method} - __construct()
+{method} - __clone()
+{method} - __wakeup()
+
+}
+
+
+interface ReserveLocationCommand{
+  {method} + execute()
+}
+
+class ReserveLocation {
+  {field} - event_location
+  {method} + __construct(EventLocation)
+  {method} + execute()
+}
+
+
+class Invoker {
+  {field} - command : EventCommand
+  {method} + setCommand(EventLocation)
+  {method} + run()
+}
+
+class EventFactoryProducer {
+  {method} + getFactory()
+}
+
+Abstract class AbstractEventFactory {
+  {method} + makeEvent()
+}
+
+class GraduatedFactory {
+  {method} + makeEvent()
+}
+
+class GeneralFactory {
+  {method} + makeEvent()
+}
+
+Interface Event {
+  {method} + getEventInfo()
+}
+
+class GraduatedEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GraduatedMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GeneralEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GeneralMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+interface SplSubject{
+  {method} + attach(observer)
+  {method} + detach(observer)
+  {method} + notify()
+}
+
+interface SplObserver{
+  {method} + update(subject)
+}
+
+rectangle "Location Preparation" as preparation{
+interface PreparationBuilderInterface{
+{method} + addprojector()
+{method} + addChairs()
+{method} + addSoundSystem()
+{method} + addSnacks()
+}
+
+class ChairPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class ProjectorPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class SnackPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class SoundSystemPrototype{
+{field} - description : String
+{method} + __clone()
+}
+}
+
+class BusServicePool{
+{field} - out_of_service : BusService[]
+{field} - available : BusService[]
+{field} - plate_no : BusService[]
+{method} + __construct()
+{method} + getfree()
+{method} + getfull()
+{method} + getBusService()
+{method} + release()
+}
+
+class BusService{
+{field} - id : Integer
+{field} - plate_no : String
+{method} + getId()
+{method} + getPlateNo()
+}
+
+class TicketListIterator{
+  {field} - ticketList : TicketList
+  {field} - currentTicket : Integer
+  {method} + __construct()
+  {method} + getCurrentTicket()
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class TicketListReverseIterator {
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class Ticket {
+  {field} - seatNo : String
+  {field} - price : Integer
+  {method} + getSeatNo()
+  {method} + getPrice()
+  {method} + getTicketInfo()
+}
+
+class TicketList {
+  {field} - tickets : Ticket[]
+  {field} - ticketCount : Integer
+  {method} + setTicketCount(Integer)
+  {method} + getTicket(Integer)
+  {method} + addTicket(Ticket)
+  {method} + removeTicket(Ticket)
+}
+
+class TicketListIterator {
+  {field} - ticketList : TicketList
+  {field} - currentTicket : Integer
+  {method} + getCurrentTicket()
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class TicketListReverseIterator {
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+
+interface EventTicket{
+  {method} + calculatePrice()
+}
+
+class EventTicketDecorator {
+  {field} - event_ticket : EventTicket
+  {method} + __construct(EventTicket)
+}
+
+class Transportation {
+  {field} - PRICE
+  {method} + calculatePrice()
+}
+
+class OpenBuffet {
+  {field} - PRICE
+  {method} + calculatePrice()
+}
+
+class Memento {
+  {field} - state)
+  {method} + getState()
+}
+
+class State {
+  {field} - validStates
+  {field} - state
+  {field} - STATE_OPENED
+  {field} - STATE_CLOSED
+  {static} + ensurelsValidState(state)
+  {method} + __toString()
+}
+
+
+
+
+UserView <-- UserController : updates
+LocationView <-- LocationController : updates
+EventView <-- EventController : updates
+PreparationView <-- PreparationController : updates
+BusServiceView <-- BusServiceController : updates
+TicketView <-- TicketController : updates
+
+
+Demo_index -> controller : uses
+
+
+
+
+' Singleton Pattern
+LocationController --> Location : uses
+Location --> MeetingHallSingleton : asks
+
+'Command Pattern
+Invoker --> ReserveLocationCommand : uses
+Location -> Invoker : uses
+ReserveLocationCommand --> ReserveLocation : implements
+
+'Factory Pattern
+UserController --> UserFactory : uses
+UserFactory -> rec : creates
+UserInterface <-- Student : implements
+UserInterface <-- EventManager : implements
+UserInterface <-- Admin : implements
+Student --|> User : extends
+EventManager --|> User : extends
+Admin --|> User : extends
+Student --> StudentProfile : uses
+EventManager --> ManagementProfile : uses
+Admin --> ManagementProfile : uses
+
+'Abstract Factory Pattern
+EventController --> EventFactoryProducer : uses
+EventFactoryProducer --> AbstractEventFactory : uses
+AbstractEventFactory <|-- GraduatedFactory : extends
+GraduatedFactory --> Event : creates
+AbstractEventFactory <|-- GeneralFactory : extends
+GeneralFactory --> Event : creates
+Event <-- GraduatedEvent : implements
+Event <-- GraduatedMeeting : implements
+Event <-- GeneralEvent : implements
+Event <-- GeneralMeeting : implements
+
+'Observer Pattern
+SplSubject <-- GraduatedEvent
+SplSubject <-- GraduatedMeeting
+SplSubject <-- GeneralEvent
+SplSubject <-- GeneralMeeting
+GraduatedEvent --> SplObserver : uses
+GraduatedMeeting --> SplObserver : uses
+GeneralEvent --> SplObserver : uses
+GeneralMeeting --> SplObserver : uses
+SplObserver <- Student : implements
+SplObserver <- EventManager : implements
+
+'Builder Pattern and Prototype Pattern
+PreparationController --> PreparationBuilderInterface : builds
+PreparationBuilderInterface --> ChairPrototype : uses
+PreparationBuilderInterface ---> ProjectorPrototype : uses
+PreparationBuilderInterface ---> SnackPrototype : uses
+PreparationBuilderInterface --> SoundSystemPrototype : uses
+
+'ObjectPool Pattern
+BusServiceController --> BusServicePool : asks for BusService
+BusServicePool --> BusService : uses
+
+' Iterator Pattern
+TicketController --> TicketListIterator : applies
+TicketController --> TicketListReverseIterator : applies
+TicketListIterator <|- TicketListReverseIterator : extends
+TicketList --> Ticket : uses
+TicketListIterator -->TicketList : iterats
+
+'Memento Pattern
+Ticket -> Memento
+Memento <-- State
+TicketController --> Memento : applies
+
+'Decorator
+EventTicket <.. EventTicketDecorator
+EventTicket <.. Ticket
+EventTicketDecorator <-- Transportation
+EventTicketDecorator <-- OpenBuffet
+TicketController ---> EventTicket : uses
+
+@enduml
+----
+
+
+# Used Design Patterns :
+Factory , Singleton , Command , Abstract Factory, Observer, Builder , Prototype, Object Pool , Iterator, Memento , and Decorator.
+
+### Factory Pattern :
+Factory pattern is one of the most used design patterns in Java. This type of design pattern comes under creational pattern as this pattern provides one of the best ways to create an object.
+
+In Factory pattern, we create object without exposing the creation logic to the client and refer to newly created object using a common interface.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class StudentController{
+{field} - User : User
+{field} - UserView : UserView
+
+{method} + setUserModel()
+{method} + setUserView()
+{method} + login()
+{method} + register()
+{method} + resetPassword()
+{method} + updateProfile()
+
+}
+
+
+class StudentView{
+{method} + printUserRegisteration()
+{method} + printUserLogin()
+{method} + printUserResetPassword()
+{method} + printUserProfile()
+}
+
+rectangle "User" as rec{
+
+Interface UserInterface {
+  {method} + getProfile()
+}
+
+class Student {
+{field} - student_profile : StudentProfile
+{field} - attending : Event[]
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(StudentProfile)
+{method} + setAttending(Event)
+{method} + getProfile()
+{method} + getAttending()
+}
+
+class EventManager {
+{field} - event_manager_profile : ManagementProfile
+{field} - related_events : Event[]
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(ManagementProfile)
+{method} + setRelatedEvents(Event)
+{method} + getProfile()
+{method} + getRelatedEvents()
+}
+
+class Admin {
+{field} - event_manager_profile : ManagementProfile
+{field} - preview_events : Event[]
+
+{method} + update(SplSubject)
+{method} + getCreatedEvents()
+{method} + setProfile(ManagementProfile)
+{method} + getProfile()
+}
+
+class User {
+  {field} - id : Integer
+  {field} - login_name : String
+  {field} - password : String
+  {field} - first_name : String
+  {field} - last_name : String
+  {field} - email : String
+  {field} - type : String
+  {field} - login_status : String
+  {method} + setId(Integer)
+  {method} + setLoginName(String)
+  {method} + setPassword(String)
+  {method} + setFirstName(String)
+  {method} + setLastName(String)
+  {method} + setEmail(String)
+  {method} + setType(String)
+  {method} + setLoginStatus(Boolean)
+  {method} + getId()
+  {method} + getLoginName()
+  {method} + getPassword()
+  {method} + getFirstName()
+  {method} + getLastName()
+  {method} + getEmail()
+  {method} + getType()
+  {method} + getLoginStatus()
+
+}
+
+
+
+class StudentProfile {
+  {field} - student_id : Integer
+  {field} - department : String
+  {field} - status : String
+  {field} - address : String
+  {field} - phone_number : String
+
+  {method} + setStudentId(Integer)
+  {method} + setDepartment(String)
+  {method} + setStatus(String)
+  {method} + setAddress(String)
+  {method} + setPhoneNumber(String)
+  {method} + preview()
+}
+
+
+class ManagementProfile {
+  {field} - position : String
+  {field} - address : String
+  {field} - phone_number : String
+
+  {method} + setPosition(String)
+  {method} + setAddress(String)
+  {method} + setPhoneNumber(String)
+  {method} + preview()
+}
+
+
+}
+'End rectangle
+
+class UserFactory {
+  {field} - user
+  {field} - user_type :  String
+
+  {method} + __construct(String)
+  {method} + getUser()
+  {method} + getUserType()
+}
+
+
+StudentController <- Demo_index : uses
+StudentView <- StudentController : updates
+StudentController --> UserFactory : uses
+
+UserFactory -> rec : creates
+UserInterface <-- Student : implements
+UserInterface <-- EventManager : implements
+UserInterface <-- Admin : implements
+
+Student --|> User : extends
+EventManager --|> User : extends
+Admin --|> User : extends
+
+Student --> StudentProfile : uses
+EventManager --> ManagementProfile : uses
+Admin --> ManagementProfile : uses
+@enduml
+----
+
+### Singleton Pattern
+Singleton pattern is one of the simplest design patterns in Java. This type of design pattern comes under creational pattern as this pattern provides one of the best ways to create an object.
+
+This pattern involves a single class which is responsible to create an object while making sure that only single object gets created. This class provides a way to access its only object which can be accessed directly without need to instantiate the object of the class.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class LocationController{
+{field} - location : Location
+{field} - view : LocationView
+
+{method} + setModel()
+{method} + setView()
+{method} + getLocation()
+{method} + useLocation()
+
+}
+
+
+class LocationView{
+{method} + printLocation()
+}
+
+class Location{
+{field} - type : String
+{field} - action : String
+{field} - location : MeetingHallSingleton
+
+{method} + getLocation()
+}
+
+class MeetingHallSingleton{
+{field} - title : String
+{field} - limit : Integer
+{field} - type : String
+{static} - is_occupied
+{static} - hall
+
+{static} + reserve()
+{method} + checkOut()
+{method} + getTitle()
+{method} - __construct()
+{method} - __clone()
+{method} - __wakeup()
+
+}
+
+
+LocationController <- Demo_index : uses
+LocationView <- LocationController : updates
+LocationController --> Location : uses
+Location --> MeetingHallSingleton : asks
+
+
+@enduml
+----
+
+### Command Pattern
+Command pattern is a data driven design pattern and falls under behavioral pattern category. A request is wrapped under an object as command and passed to invoker object. Invoker object looks for the appropriate object which can handle this command and passes the command to the corresponding object which executes the command.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class LocationController{
+{field} - location : Location
+{field} - view : LocationView
+
+{method} + setModel()
+{method} + setView()
+{method} + getLocation()
+{method} + useLocation()
+
+}
+
+
+class LocationView{
+{method} + printLocation()
+}
+
+class Location{
+{field} - type : String
+{field} - action : String
+{field} - location : MeetingHallSingleton
+
+{method} + getLocation()
+}
+
+interface ReserveLocationCommand{
+  {method} + execute()
+}
+
+class ReserveLocation {
+  {field} - event_location
+  {method} + __construct(EventLocation)
+  {method} + execute()
+}
+
+
+class Invoker {
+  {field} - command : EventCommand
+  {method} + setCommand(EventLocation)
+  {method} + run()
+}
+
+
+
+LocationController <- Demo_index : uses
+LocationView <- LocationController : updates
+LocationController --> Location : uses
+
+Invoker --> ReserveLocationCommand : uses
+Location -> Invoker : uses
+ReserveLocation -> ReserveLocationCommand : implements
+
+
+@enduml
+----
+
+### Abstract Factory Pattern
+Abstract Factory patterns work around a super-factory which creates other factories. This factory is also called as factory of factories. This type of design pattern comes under creational pattern as this pattern provides one of the best ways to create an object.
+
+In Abstract Factory pattern an interface is responsible for creating a factory of related objects without explicitly specifying their classes. Each generated factory can give the objects as per the Factory pattern.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class EventController{
+{field} - Factory :EventFactoryProducer
+{field} - View : EventView
+{field} - event : Event
+
+{method} + setModel()
+{method} + setView()
+{method} + login()
+{method} + register()
+{method} + makeEvent()
+
+}
+
+
+class EventView{
+{method} + printEvent()
+}
+
+class EventFactoryProducer {
+  {method} + getFactory()
+}
+
+Abstract class AbstractEventFactory {
+  {method} + makeEvent()
+}
+
+class GraduatedFactory {
+  {method} + makeEvent()
+}
+
+class GeneralFactory {
+  {method} + makeEvent()
+}
+
+Interface Event {
+  {method} + getEventInfo()
+}
+
+class GraduatedEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GraduatedMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GeneralEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GeneralMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+
+EventController <- Demo_index : uses
+EventView <- EventController : updates
+EventController --> EventFactoryProducer : uses
+
+AbstractEventFactory <- EventFactoryProducer : uses
+AbstractEventFactory <|-- GraduatedFactory : extends
+GraduatedFactory --> Event : creates
+AbstractEventFactory <|-- GeneralFactory : extends
+GeneralFactory --> Event : creates
+
+Event <-- GraduatedEvent : implements
+Event <-- GraduatedMeeting : implements
+Event <-- GeneralEvent : implements
+Event <-- GeneralMeeting : implements
+
+
+
+
+
+
+@enduml
+----
+
+### Observer Pattern
+Observer pattern is used when there is one-to-many relationship between objects such as if one object is modified, its depenedent objects are to be notified automatically. Observer pattern falls under behavioral pattern category.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class EventController{
+{field} - Factory :EventFactoryProducer
+{field} - View : EventView
+{field} - event : Event
+
+{method} + setModel()
+{method} + setView()
+{method} + login()
+{method} + register()
+{method} + makeEvent()
+
+}
+
+
+class EventView{
+{method} + printEvent()
+}
+
+class EventFactoryProducer {
+  {method} + getFactory()
+}
+
+Abstract class AbstractEventFactory {
+  {method} + makeEvent()
+}
+
+class GraduatedFactory {
+  {method} + makeEvent()
+}
+
+class GeneralFactory {
+  {method} + makeEvent()
+}
+
+Interface Event {
+  {method} + getEventInfo()
+}
+
+class GraduatedEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GraduatedMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GeneralEvent {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+class GeneralMeeting {
+  {field} - manager : String
+  {field} - location : String
+  {field} - date_time : String
+  {field} - description : String
+  {field} - observers : User
+  {method} + __construct()
+  {method} + attach()
+  {method} + detach()
+  {method} + trigger()
+  {method} + notify()
+  {method} + getEventManager()
+  {method} + getLocation()
+  {method} + getDateTime()
+  {method} + getDescription()
+  {method} + getEventInfo()
+}
+
+interface SplSubject{
+  {method} + attach(observer)
+  {method} + detach(observer)
+  {method} + notify()
+}
+
+interface SplObserver{
+  {method} + update(subject)
+}
+
+class User{
+}
+
+EventController <- Demo_index : uses
+EventView <- EventController : updates
+EventController --> EventFactoryProducer : uses
+
+AbstractEventFactory <- EventFactoryProducer : uses
+AbstractEventFactory <|-- GraduatedFactory : extends
+GraduatedFactory --> Event : creates
+AbstractEventFactory <|-- GeneralFactory : extends
+GeneralFactory --> Event : creates
+
+Event <-- GraduatedEvent : implements
+Event <-- GraduatedMeeting : implements
+Event <-- GeneralEvent : implements
+Event <-- GeneralMeeting : implements
+
+SplSubject <-- GraduatedEvent
+SplSubject <-- GraduatedMeeting
+SplSubject <-- GeneralEvent
+SplSubject <-- GeneralMeeting
+
+GraduatedEvent --> SplObserver : uses
+GraduatedMeeting --> SplObserver : uses
+GeneralEvent --> SplObserver : uses
+GeneralMeeting --> SplObserver : uses
+
+SplObserver <-- User : implements
+
+
+
+
+
+
+@enduml
+----
+
+### Builder Pattern
+Builder pattern builds a complex object using simple objects and using a step by step approach. This type of design pattern comes under creational pattern as this pattern provides one of the best ways to create an object.
+
+A Builder class builds the final object step by step. This builder is independent of other objects.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class PreparationController{
+{field} - preparation : Preparation
+{field} - view : PreparationView
+
+{method} + setModel()
+{method} + setView()
+{method} + build()
+{method} + addprojector()
+{method} + addSoundSystem()
+{method} + addChairs()
+{method} + addSnacks()
+
+}
+
+
+class PreparationView{
+{method} + print()
+}
+
+interface PreparationBuilderInterface{
+{method} + addprojector()
+{method} + addChairs()
+{method} + addSoundSystem()
+{method} + addSnacks()
+}
+
+class Chair{
+{field} - description : String
+}
+
+class Projector{
+{field} - description : String
+}
+
+class Snack{
+{field} - description : String
+}
+
+class SoundSystem{
+{field} - description : String
+}
+
+
+
+
+PreparationController <- Demo_index : uses
+PreparationView <- PreparationController : updates
+PreparationController --> PreparationBuilderInterface : builds
+
+PreparationBuilderInterface --> Chair : uses
+PreparationBuilderInterface --> Projector : uses
+PreparationBuilderInterface --> Snack : uses
+PreparationBuilderInterface --> SoundSystem : uses
+
+
+@enduml
+----
+
+### Prototype Pattern
+Prototype pattern refers to creating duplicate object while keeping performance in mind. This type of design pattern comes under creational pattern as this pattern provides one of the best ways to create an object.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class PreparationController{
+{field} - preparation : Preparation
+{field} - view : PreparationView
+
+{method} + setModel()
+{method} + setView()
+{method} + build()
+{method} + addprojector()
+{method} + addSoundSystem()
+{method} + addChairs()
+{method} + addSnacks()
+
+}
+
+
+class PreparationView{
+{method} + print()
+}
+
+interface PreparationBuilderInterface{
+{method} + addprojector()
+{method} + addChairs()
+{method} + addSoundSystem()
+{method} + addSnacks()
+}
+
+class ChairPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class ProjectorPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class SnackPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+class SoundSystemPrototype{
+{field} - description : String
+{method} + __clone()
+}
+
+
+
+
+PreparationController <- Demo_index : uses
+PreparationView <- PreparationController : updates
+PreparationController --> PreparationBuilderInterface : builds
+
+PreparationBuilderInterface --> ChairPrototype : uses
+PreparationBuilderInterface --> ProjectorPrototype : uses
+PreparationBuilderInterface --> SnackPrototype : uses
+PreparationBuilderInterface --> SoundSystemPrototype : uses
+
+
+@enduml
+----
+
+### Object Pool Pattern
+The object pool pattern is a software creational design pattern that uses a set of initialized objects kept ready to use – a “pool” – rather than allocating and destroying them on demand. 
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class BusServiceController{
+{field} - pool : BusServicePool
+{field} - view : BusServiceView
+
+{method} + setModel()
+{method} + setView()
+{method} + CallBusService()
+{method} + Release()
+
+}
+
+class BusServiceView{
+{method} + print()
+}
+
+class BusServicePool{
+{field} - out_of_service : BusService[]
+{field} - available : BusService[]
+{field} - plate_no : BusService[]
+{method} + __construct()
+{method} + getfree()
+{method} + getfull()
+{method} + getBusService()
+{method} + release()
+}
+
+class BusService{
+{field} - id : Integer
+{field} - plate_no : String
+{method} + getId()
+{method} + getPlateNo()
+}
+
+
+BusServiceController <- Demo_index : uses
+BusServiceView <- BusServiceController : updates
+BusServiceController --> BusServicePool : asks for BusService
+BusServicePool --> BusService : uses
+@enduml
+----
+
+### Iterator Pattern
+Iterator pattern is very commonly used design pattern in Java and .Net programming environment. This pattern is used to get a way to access the elements of a collection object in sequential manner without any need to know its underlying representation.
+
+Iterator pattern falls under behavioral pattern category.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class TicketController{
+{field} - STATE_OPEN
+{field} - STATE_CLOSE
+{field} - tickets : TicketList
+{field} - sold_ticket : Ticket
+{field} - view : TicketView
+
+{method} + setModel()
+{method} + setView()
+{method} + buyTicket()
+{method} + getSoldTicket()
+{method} + SoldState()
+{method} + extra()
+
+}
+
+class TicketView{
+{method} + print()
+{method} + printline()
+}
+
+class TicketListIterator{
+  {field} - ticketList : TicketList
+  {field} - currentTicket : Integer
+  {method} + __construct()
+  {method} + getCurrentTicket()
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class TicketListReverseIterator {
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class Ticket {
+  {field} - seatNo : String
+  {field} - price : Integer
+  {method} + getSeatNo()
+  {method} + getPrice()
+  {method} + getTicketInfo()
+}
+
+class TicketList {
+  {field} - tickets : Ticket[]
+  {field} - ticketCount : Integer
+  {method} + setTicketCount(Integer)
+  {method} + getTicket(Integer)
+  {method} + addTicket(Ticket)
+  {method} + removeTicket(Ticket)
+}
+
+class TicketListIterator {
+  {field} - ticketList : TicketList
+  {field} - currentTicket : Integer
+  {method} + getCurrentTicket()
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+class TicketListReverseIterator {
+  {method} + getNextTicket()
+  {method} + hasNextTicket()
+}
+
+
+TicketController <- Demo_index : uses
+TicketView <- TicketController : updates
+
+TicketController --> TicketListIterator : applies
+TicketController --> TicketListReverseIterator : applies
+TicketListIterator <|- TicketListReverseIterator : extends
+TicketList --> Ticket : uses
+TicketListIterator -->TicketList : iterats
+@enduml
+----
+
+### Memento Pattern
+Memento pattern is used to restore state of an object to a previous state. Memento pattern falls under behavioral pattern category.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class TicketController{
+{field} - STATE_OPEN
+{field} - STATE_CLOSE
+{field} - tickets : TicketList
+{field} - sold_ticket : Ticket
+{field} - view : TicketView
+
+{method} + setModel()
+{method} + setView()
+{method} + buyTicket()
+{method} + getSoldTicket()
+{method} + SoldState()
+{method} + extra()
+
+}
+
+class TicketView{
+{method} + print()
+{method} + printline()
+}
+
+
+class Ticket {
+  {field} - seatNo : String
+  {field} - price : Integer
+  {method} + getSeatNo()
+  {method} + getPrice()
+  {method} + getTicketInfo()
+}
+
+
+class Memento {
+  {field} - state)
+  {method} + getState()
+}
+
+class State {
+  {field} - validStates
+  {field} - state
+  {field} - STATE_OPENED
+  {field} - STATE_CLOSED
+  {static} + ensurelsValidState(state)
+  {method} + __toString()
+}
+
+
+
+TicketController <- Demo_index : uses
+TicketView <- TicketController : updates
+
+Ticket -> Memento
+Memento <-- State
+TicketController --> Memento : applies
+@enduml
+----
+
+### Decorator Pattern
+Decorator pattern allows a user to add new functionality to an existing object without altering its structure. This type of design pattern comes under structural pattern as this pattern acts as a wrapper to existing class.
+
+This pattern creates a decorator class which wraps the original class and provides additional functionality keeping class methods signature intact.
+
+[plantuml]
+----
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Demo_index{
+
+}
+
+class TicketController{
+{field} - STATE_OPEN
+{field} - STATE_CLOSE
+{field} - tickets : TicketList
+{field} - sold_ticket : Ticket
+{field} - view : TicketView
+
+{method} + setModel()
+{method} + setView()
+{method} + buyTicket()
+{method} + getSoldTicket()
+{method} + SoldState()
+{method} + extra()
+
+}
+
+class TicketView{
+{method} + print()
+{method} + printline()
+}
+
+
+class Ticket {
+  {field} - seatNo : String
+  {field} - price : Integer
+  {method} + getSeatNo()
+  {method} + getPrice()
+  {method} + getTicketInfo()
+}
+
+interface EventTicket{
+  {method} + calculatePrice()
+}
+
+class EventTicketDecorator {
+  {field} - event_ticket : EventTicket
+  {method} + __construct(EventTicket)
+}
+
+class Transportation {
+  {field} - PRICE
+  {method} + calculatePrice()
+}
+
+class OpenBuffet {
+  {field} - PRICE
+  {method} + calculatePrice()
+}
+
+
+
+TicketController <- Demo_index : uses
+TicketView <- TicketController : updates
+
+EventTicket <.. EventTicketDecorator
+EventTicket <.. Ticket
+EventTicketDecorator <-- Transportation
+EventTicketDecorator <-- OpenBuffet
+
+TicketController --> EventTicket : uses
+@enduml
+----
