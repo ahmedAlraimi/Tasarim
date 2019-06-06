@@ -186,39 +186,34 @@ BEGIN TESTING MEMENTO PATTERN
 skinparam classAttributeIconSize 0
 
 class Ticket {
-  {field} - seatNo : String
-  {field} - price : Integer
-  {method} + getSeatNo()
-  {method} + getPrice()
-  {method} + getTicketInfo()
+  {field} - currentState
+  {method} + open()
+  {method} + assign()
+  {method} + close()
+  {method} + saveToMemento()
+  {method} + restoreFromMemento(memento)
+  {method} + getState()
 }
 
-class TicketList {
-  {field} - tickets : Ticket[]
-  {field} - ticketCount : Integer
-  {method} + setTicketCount(Integer)
-  {method} + getTicket(Integer)
-  {method} + addTicket(Ticket)
-  {method} + removeTicket(Ticket)
+class Memento {
+  {field} - state)
+  {method} + getState()
 }
 
-class TicketListIterator {
-  {field} - ticketList : TicketList
-  {field} - currentTicket : Integer
-  {method} + getCurrentTicket()
-  {method} + getNextTicket()
-  {method} + hasNextTicket()
+class State {
+  {field} - validStates
+  {field} - state
+  {field} - STATE_CREATED
+  {field} - STATE_OPENED
+  {field} - STATE_ASSIGNED
+  {field} - STATE_CLOSED
+  {static} + ensurelsValidState(state)
+  {method} + __toString()
 }
 
-class TicketListReverseIterator {
-  {method} + getNextTicket()
-  {method} + hasNextTicket()
-}
 
-TicketListIterator <|-- TicketListReverseIterator : extends
-Ticket <-- TicketList : uses
-TicketList <-- TicketListIterator : iterats
-
+Ticket -> Memento
+Memento <-- State
 @enduml
 ----
 
