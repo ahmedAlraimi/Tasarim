@@ -30,7 +30,7 @@ using iterator to check through a list of ticket to find the availble one , the 
 ### MVC Pattern is applied in this project.
 
 ## CODE : 
-The codes for this project is found under the folder : Desgin_Pattern. Since it is a web application (php) a local server such as (wamp , xamp) is required to run the application
+The codes for this project is found under the folder : Desgin_Pattern. Since it is a web application (php) a local server such as (wamp , xamp) is required to run the application . (Browse : 'http://localhost/Design_Pattern' )
 
 ## UML : 
 
